@@ -7,9 +7,13 @@ import VotingPage from './Pages/VotingPage';
 import Profile from "./Pages/Profile";
 import MakeClaim from './Pages/MakeClaim';
 import { Box } from "@chakra-ui/react";
-
+import CustomRoute from './utils/CustomRoute';
+import { useState } from "react";
+import BecomeMember from './Pages/BecomeMember';
 
 function App() {
+
+  const [ isMember, setIsMember ] = useState(true);
 
   return (
     <>
@@ -17,18 +21,21 @@ function App() {
         <Header />
         <Box pt="60px">
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/become-a-member">
+              <BecomeMember />
+            </Route>
+            <CustomRoute isMember={isMember} exact path="/">
               <ClaimsPage />
-            </Route>
-            <Route exact path="/voting">
+            </CustomRoute>
+            <CustomRoute isMember={isMember} exact path="/voting">
               <VotingPage />
-            </Route>
-            <Route exact path="/profile">
+            </CustomRoute>
+            <CustomRoute isMember={isMember} exact path="/profile">
               <Profile />
-            </Route>
-            <Route exact path="/makeclaim">
+            </CustomRoute>
+            <CustomRoute isMember={isMember} exact path="/makeclaim">
               <MakeClaim />
-            </Route>
+            </CustomRoute>
           </Switch>
         </Box>
         
