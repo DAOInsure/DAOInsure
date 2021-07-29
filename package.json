@@ -12,6 +12,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@textile/hub": "^6.2.0",
     "axios": "^0.21.1",
     "ethers": "^5.4.1",
     "framer-motion": "^4.1.17",

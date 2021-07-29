@@ -1,10 +1,14 @@
 import { Grid, Heading, VStack, Tag, Image, Box, HStack, Text, Button, useRadio, useRadioGroup, Input, InputRightElement, IconButton, Icon, InputGroup, Avatar, Tooltip } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import Card from "../Components/Card";
 import InformationCards from "../Components/InformationCards";
 import { ImAttachment } from "react-icons/im";
+import { MdImage } from "react-icons/md";
 import Jazzicon from "../Components/Jazzicon";
-
+import { AppContext } from "../utils/AppContext";
+import { uploadToSlate } from "../utils/slate";
+import { addToThread } from "../utils/textile";
+import { ThreadID } from "@textile/hub";
 
 function RadioCard(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -24,21 +28,69 @@ function RadioCard(props) {
 }
 
 function VotingPage() {
+
+    
+
+    const { textileClient } = useContext(AppContext);
     const [ currentImage, setCurrentImage ] = useState("https://wallpaperaccess.com/full/30100.jpg");
+    const [ sendImage, setSendImage ] = useState();
+    const [ message, setMessage ] = useState(); 
+    const [ messages, setMessages ] = useState([]);
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Vote",
         defaultValue:"no",
         onChange: console.log
     });
 
+    useEffect(() => {
+        async function init() {
+            console.log("listening");
+            let closer = await textileClient.listen(ThreadID.fromString("bafkyaidn2wzfyela7zyi5w63hudaf4sx67duwjdbhxkhgwo3abiozoq"), [{actionTypes: ['CREATE'], collectionName: "messageData" }], (reply, error) => {
+                
+            });
+            return function cleanup() {
+                closer();
+            }
+        }
+        if(textileClient) {
+            init();
+        }
+    },[textileClient]);
+
     const options = ["Yes", "No"];
     const group = getRootProps();
-
-    const messages = [""];
 
     const handleImage = ({ target }) => {
         setCurrentImage(target.src);
     }
+
+    const handleMessage = ({ target }) => {
+        setMessage(target.value);
+    }
+
+    const handleSendImageChange = ({ target }) => {
+        setSendImage(target.files[0]);
+    }
+
+    const handleSendMessage = async () => {
+        let uploadedImage = "";
+        if(sendImage) {
+            let result = await uploadToSlate(sendImage);
+            uploadedImage = `https://slate.textile.io/ipfs/${result.data.cid}`;
+        }
+        let messageObj = {
+            message,
+            image: uploadedImage,
+            address: "0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69",
+            claimId: "01fb2efkvfqh51vaq91paws6my"
+        }
+        let resultFromTextile = await addToThread(textileClient, "bafkyaidn2wzfyela7zyi5w63hudaf4sx67duwjdbhxkhgwo3abiozoq", "messageData", messageObj);
+        console.log(resultFromTextile);
+        console.log("Message Sent", messageObj);
+        setMessage("");
+        setSendImage();
+        setMessages([...messages, messageObj]);
+    } 
 
     return (
         <Grid px="250px" py="20px" width="100%" templateColumns="3fr 2fr" gridGap={5} alignItems="flex-start">
@@ -72,38 +124,55 @@ function VotingPage() {
                     </VStack>
                     <Box _hover={{ boxShadow:"base", transform: "scale(1.01)" }} transition="all .3s" textColor="white" fontWeight="600" width="100%" backgroundColor="whatsapp.500" borderRadius="20px" textAlign="center" py={2} borderColor="whatsapp.500" colorScheme="whatsapp">Vote</Box>
                 </Card>
-                <Card cardTitle="Chat">
-                    <VStack height="400px" spacing={5} justifyContent="flex-end" width="100%" alignItems="flex-start">
-                        {
-                            messages.map((message) => {
-                                return (
-                                    <HStack key={0} alignItems="flex-end">
-                                        <Tooltip placement="top" hasArrow label={`${"0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69".substr(0,6)}...${"0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69".substr(-4)}`}>
-                                            <Box borderWidth="2px" padding="2px" borderColor="whatsapp.500" borderStyle="solid" borderRadius="full">
-                                                <Avatar size="sm" icon={<Jazzicon diameter="32" address="0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69" />} />
-                                            </Box>
-                                        </Tooltip>
-                                        <VStack alignItems="flex-start" backgroundColor="whatsapp.500" color="white" borderWidth="1px" borderRadius="10px" borderColor="whatsapp.500" padding={3}>
-                                            <Image borderRadius="10px" height="200px" src="https://cropwatch.unl.edu/styles/hero/public/images/hero/2019/Flood-1a.jpg?itok=1uCcg0kG" />
-                                            <Text>
-                                                Here is some more proof.
-                                            </Text>
-                                        </VStack>
-                                    </HStack>
-                                );
-                            })
-                        }
+                <Card  cardTitle="Chat">
+                    <VStack  height="400px" spacing={5} justifyContent="flex-end" width="100%" alignItems="flex-start">
+                        <VStack alignItems="flex-start" overflowY="scroll" width="100%">
+                            {
+                                messages.map((message) => {
+                                    return (
+                                        <HStack key={message.image} alignItems="flex-end">
+                                            <Tooltip placement="top" hasArrow label={`${message.address.substr(0,6)}...${message.address.substr(-4)}`}>
+                                                <Box borderWidth="2px" padding="2px" borderColor="whatsapp.500" borderStyle="solid" borderRadius="full">
+                                                    <Avatar size="sm" icon={<Jazzicon diameter="32" address={message.address} />} />
+                                                </Box>
+                                            </Tooltip>
+                                            <VStack alignItems="flex-start" backgroundColor="whatsapp.500" color="white" borderWidth="1px" borderRadius="10px" borderColor="whatsapp.500" padding={3}>
+                                                {
+                                                    message.image.length > 0 ? 
+                                                    <Image borderRadius="10px" height="200px" src={message.image} />
+                                                    :
+                                                    null
+                                                }
+                                                <Text>
+                                                    {message.message}
+                                                </Text>
+                                            </VStack>
+                                        </HStack>
+                                    );
+                                })
+                            }
+                        </VStack>
+                        <HStack>
+                            {
+                                sendImage ?
+                                <HStack borderColor="whatsapp.500" borderWidth="1px" padding={2} borderRadius="10px" key={sendImage.name}>
+                                    <MdImage />
+                                    <Text>{sendImage.name}</Text>
+                                </HStack>
+                                :
+                                null                                
+                            }
+                        </HStack>
                         
                         <HStack width="100%">
                             <InputGroup>
-                                <Input borderRadius="20px" focusBorderColor="whatsapp.500" />
-                                    
+                                <Input value={message} onChange={handleMessage} borderRadius="20px" focusBorderColor="whatsapp.500" />
                                     <InputRightElement>
                                         <IconButton cursor="pointer" as="label" htmlFor="image-input" colorScheme="whatsapp" icon={<ImAttachment />} />
-                                        <input type="file" id="image-input" style={{ display: "none"}} /> 
+                                        <input onChange={(e) => handleSendImageChange(e)} type="file" id="image-input" style={{ display: "none"}} /> 
                                     </InputRightElement>                                
                             </InputGroup>
-                            <Button colorScheme="whatsapp">Send</Button>
+                            <Button onClick={handleSendMessage} colorScheme="whatsapp">Send</Button>
                         </HStack>
                     </VStack>
                 </Card>

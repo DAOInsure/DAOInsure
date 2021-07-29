@@ -1,10 +1,12 @@
 import { Grid, VStack, Heading, InputGroup, FormControl, HStack, Image, Skeleton, Spinner, Box, Text, Button, FormLabel, Input, FormHelperText, Textarea, InputRightAddon, SkeletonText } from "@chakra-ui/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { TiPlus } from "react-icons/ti";
 import Card from "../Components/Card";
 import { connectToInfuraIpfs } from "../utils/ipfs";
 import axios from "axios";
-
+import { getClient, addToThread } from "../utils/textile";
+import { AppContext } from "../utils/AppContext";
+import { uploadToSlate } from "../utils/slate";
 
 var ipfs;
 
@@ -12,6 +14,13 @@ function MakeClaim() {
     const [ currentImage, setCurrentImage ] = useState(undefined);
     const [ images, setImages ] = useState([]);
     const [ isPageLoading, setIsPageLoading ] = useState(true);
+    const { textileClient } = useContext(AppContext);
+    const [ claimTitle, setClaimTitle ] = useState();
+    const [ claimSummary, setClaimSummary ] = useState();
+    const [ dateOfIncident, setDateOfIncident ] = useState();
+    const [ startTime, setStartTime ] = useState();
+    const [ claimAmount, setClaimAmount ] = useState();
+
 
     useEffect(() => {
         async function init() {
@@ -38,54 +47,24 @@ function MakeClaim() {
                 const user = json.user;
                 console.log(collections);
             }
+
             setIsPageLoading(false);
         }
         init();
     }, [])
 
-    // const handleImage = async (e) => {
-    //     e.preventDefault();
-    //     let files = Array.from(e.target.files);
-    //     let filesWithState = files.map((file) => {
-    //         return { url: "", isUploading: true };
-    //     });
-    //     setImages([...images, ...filesWithState]);
-    //     let filesWithStateArray = [...images];
-    //     for await(const image of files) {
-    //         const reader = new window.FileReader();
-    //         console.log(reader.readyState);
-    //         reader.readAsArrayBuffer(image);
-    //         let obj;
-    //         reader.onloadend = async () => {
-    //             let imageData = Buffer(reader.result);
-    //             console.log(imageData);
-    //             const file = await ipfs.add(imageData);
-    //             console.log(file.path);
-    //             let url = `https://ipfs.io/ipfs/${file.path}`;
-    //             console.log(url);
-    //             filesWithStateArray.push({ url, isUploading: false });
-    //             setImages([...filesWithStateArray]);
-    //             setCurrentImage(filesWithStateArray[0].url);
-    //         }
-    //     } 
-    // }
-
     const handleImage = async (e) => {
-        const url = 'https://uploads.slate.host/api/public/0e3b9b38-1c95-4fe9-ab18-3a025b0ec8a0';
+        console.log("uploading");
         let file = e.target.files[0];
-        let data = new FormData();
-        data.append("data", file);
-        const response = await fetch(url, 
-            {  
-                method: 'POST',  
-                headers: {    
-                    Authorization: 'Basic SLA99335abb-4736-4871-b037-0241236029a7TE', 
-                    // API key  
-                },  
-                body: data
-            }
-        );
-        console.log(response);
+        try {  
+            let result = await uploadToSlate(file);        
+            setImages([...images, {isUploading: false, url: `https://slate.textile.io/ipfs/${result.data.cid}` }]);
+            setCurrentImage(`https://slate.textile.io/ipfs/${result.data.cid}`);
+            console.log("uploaded");          
+        } catch(e) {
+            console.log(e);
+        }
+        
     }
 
     const handleCurrentImage = (e) => {
@@ -93,6 +72,29 @@ function MakeClaim() {
         setCurrentImage(e.target.src);
     }
 
+    const handleInputChange = (e, setter) => {
+        e.preventDefault();
+        setter(e.target.value);
+    }
+    
+    const handleClaimSubmit = async (e) => {
+        e.preventDefault();
+        let imageUrls = images.map((image) => {
+            return image.url;
+        })
+        let claimObj = {
+            images: imageUrls,
+            claimTitle,
+            claimSummary,
+            dateOfIncident,
+            startTime,
+            claimAmount: parseInt(claimAmount)
+        }
+        console.log(claimObj);
+        let response = await addToThread(textileClient, "bafkyaidn2wzfyela7zyi5w63hudaf4sx67duwjdbhxkhgwo3abiozoq", "claimData", claimObj);
+        console.log(response);
+    }
+    
     return (
         <Grid paddingBottom="20px" pt="20px" height="100%" px="250px" width="100%" templateColumns="2fr 1fr" gridGap={5} alignItems="flex-start">
             <VStack width="100%" alignItems="flex-start">
@@ -103,7 +105,7 @@ function MakeClaim() {
                 </Skeleton>
                 <form style={{ width: "100%" }}>
                     <VStack width="100%" spacing={5} alignItems="flex-start">
-                        <input multiple onChange={handleImage} type="file" style={{display: "none"}} id="image-input" />
+                        <input multiple onChange={(e) => handleImage(e)} type="file" style={{display: "none"}} id="image-input" />
                         {
                             images.length == 0 ?
                                 isPageLoading ?
@@ -125,9 +127,9 @@ function MakeClaim() {
                                         images.map((image, index) => {
                                             return (
                                                 image.isUploading ?
-                                                <Spinner /> 
+                                                <Spinner key={index} /> 
                                                 :
-                                                <Image key={index} onClick={(e) => {handleCurrentImage(e)}} borderRadius="10px" height="70px" src={image.url} />
+                                                <Image key={image.url} onClick={(e) => {handleCurrentImage(e)}} borderRadius="10px" height="70px" src={image.url} />
                                             );
                                         })
                                     }
@@ -147,7 +149,7 @@ function MakeClaim() {
                                     <FormLabel>Claim Title</FormLabel>
                                 </Skeleton>
                                 <Skeleton isLoaded={!isPageLoading}>
-                                    <Input />
+                                    <Input onChange={(e) => handleInputChange(e, setClaimTitle)} />
                                 </Skeleton>
                             </FormControl>
                             <FormControl isRequired>
@@ -155,7 +157,7 @@ function MakeClaim() {
                                     <FormLabel>Summary of Incident</FormLabel>
                                 </Skeleton>
                                 <Skeleton isLoaded={!isPageLoading}>
-                                    <Textarea row="10" />
+                                    <Textarea onChange={(e) => handleInputChange(e, setClaimSummary)} row="10" />
                                 </Skeleton>
                                 <Skeleton isLoaded={!isPageLoading}>
                                     <FormHelperText>Try to precise</FormHelperText>
@@ -168,7 +170,7 @@ function MakeClaim() {
                                             <FormLabel>Date of Incident</FormLabel>
                                         </Skeleton>
                                         <Skeleton isLoaded={!isPageLoading}>
-                                            <Input type="date" />
+                                            <Input onChange={(e) => handleInputChange(e, setDateOfIncident)} type="date" />
                                         </Skeleton>
                                     </FormControl>
                                     <FormControl isRequired>
@@ -176,7 +178,7 @@ function MakeClaim() {
                                             <FormLabel>Start Time</FormLabel>
                                         </Skeleton>
                                         <Skeleton isLoaded={!isPageLoading}>
-                                            <Input type="datetime-local" />
+                                            <Input onChange={(e) => handleInputChange(e, setStartTime)} type="datetime-local" />
                                         </Skeleton>
                                     </FormControl>                                
                                 </HStack>
@@ -187,24 +189,16 @@ function MakeClaim() {
                                         </Skeleton>
                                         <Skeleton isLoaded={!isPageLoading}>
                                             <InputGroup>
-                                                <Input type="number" />
+                                                <Input onChange={(e) => handleInputChange(e, setClaimAmount)} type="number" />
                                                 <InputRightAddon>
-                                                    ETH
+                                                    USDCx
                                                 </InputRightAddon>
                                             </InputGroup>
-                                        </Skeleton>
-                                    </FormControl>
-                                    <FormControl isRequired>
-                                        <Skeleton isLoaded={!isPageLoading}>
-                                            <FormLabel>Block Number</FormLabel>
-                                        </Skeleton>
-                                        <Skeleton isLoaded={!isPageLoading}>
-                                            <Input type="number" />
                                         </Skeleton>
                                     </FormControl>                                
                                 </HStack>
                             </VStack>
-                            <Button isLoading={isPageLoading} mt="30px !important" width="100%" textTransform="uppercase" type="submit" colorScheme="whatsapp">Submit Claim</Button>
+                            <Button onClick={(e) => handleClaimSubmit(e)} isLoading={isPageLoading} mt="30px !important" width="100%" textTransform="uppercase" type="submit" colorScheme="whatsapp">Submit Claim</Button>
                         </VStack>
                     </VStack>
                 </form>
@@ -212,7 +206,7 @@ function MakeClaim() {
             <VStack width="100%">
                 <Card isLoading={isPageLoading} cardTitle="Claimable">
                     <Skeleton isLoaded={!isPageLoading}>
-                        <Heading textColor="whatsapp.500" fontSize="24px" as="h3">1,301 ETH</Heading>
+                        <Heading textColor="whatsapp.500" fontSize="24px" as="h3">1,301 USDCx</Heading>
                     </Skeleton>
                 </Card>
             </VStack>

@@ -11,6 +11,10 @@ function Stats() {
                 <Text fontWeight="600">Claims Reimbursed</Text>
                 <Heading fontSize="24px" textColor="whatsapp.500">57</Heading>
             </VStack>
+            <VStack borderColor="whatsapp.500" borderStyle="solid" borderWidth="1px" alignItems="flex-start" px="20px" py="15px" width="100%" boxShadow="base" borderRadius="10px">
+                <Text fontWeight="600">DAO Members</Text>
+                <Heading fontSize="24px" textColor="whatsapp.500">47</Heading>
+            </VStack>
         </VStack>
     );
 }
