@@ -8,7 +8,8 @@ import Profile from "./Pages/Profile";
 import MakeClaim from './Pages/MakeClaim';
 import { Box } from "@chakra-ui/react";
 import CustomRoute from './utils/CustomRoute';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import React from "react";
 import BecomeMember from './Pages/BecomeMember';
 
 function App() {

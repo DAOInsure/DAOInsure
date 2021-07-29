@@ -96,7 +96,7 @@ function InformationCards() {
                     {
                         voters.map((voter) => {
                             return (
-                                <HStack key={0}> 
+                                <HStack justifyContent="space-between" width="100%" key={0}> 
                                     <HStack>
                                         <Avatar size="xs" icon={<Jazzicon diameter="24" address="0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69" />} />
                                         <Tag>{`${"0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69".substr(0,6)}...${"0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69".substr(-5)}`}</Tag>
