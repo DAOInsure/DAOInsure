@@ -3,8 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { TiPlus } from "react-icons/ti";
 import Card from "../Components/Card";
 import { connectToInfuraIpfs } from "../utils/ipfs";
-import axios from "axios";
-import { getClient, addToThread } from "../utils/textile";
+import { addToThread } from "../utils/textile";
 import { AppContext } from "../utils/AppContext";
 import { uploadToSlate } from "../utils/slate";
 
@@ -66,6 +65,11 @@ function MakeClaim() {
         }
         
     }
+    
+    const handleStartTime = async (e) => {
+        e.preventDefault();
+        setStartTime(new Date(e.target.value).toUTCString());
+    }
 
     const handleCurrentImage = (e) => {
         e.preventDefault();
@@ -88,10 +92,11 @@ function MakeClaim() {
             claimSummary,
             dateOfIncident,
             startTime,
-            claimAmount: parseInt(claimAmount)
+            claimAmount: parseInt(claimAmount),
+            author: "0x22b2DD2CFEF2018D15543c484aceF6D9B5435863"
         }
         console.log(claimObj);
-        let response = await addToThread(textileClient, "bafkyaidn2wzfyela7zyi5w63hudaf4sx67duwjdbhxkhgwo3abiozoq", "claimData", claimObj);
+        let response = await addToThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "claimsData", claimObj);
         console.log(response);
     }
     
@@ -178,7 +183,7 @@ function MakeClaim() {
                                             <FormLabel>Start Time</FormLabel>
                                         </Skeleton>
                                         <Skeleton isLoaded={!isPageLoading}>
-                                            <Input onChange={(e) => handleInputChange(e, setStartTime)} type="datetime-local" />
+                                            <Input onChange={(e) => handleStartTime(e, setStartTime)} type="datetime-local" />
                                         </Skeleton>
                                     </FormControl>                                
                                 </HStack>

@@ -25,11 +25,6 @@ function Header() {
                     Profile
                 </Button>
             </Link>
-            <Link to="/voting">
-                <Button colorScheme="whatsapp" variant="solid">
-                    Voting
-                </Button>
-            </Link>
             {
                 signerAddress !== "" ?
                 <Button colorScheme="whatsapp" variant="solid">

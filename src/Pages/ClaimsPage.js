@@ -13,11 +13,13 @@ function ClaimsPage() {
     const [ openClaims, setOpenClaims ] = useState();
     const [ isLoadingOpenClaims, setIsLoadingOpenClaims ] = useState(true);
 
+    
+
     useEffect(() => {
         async function init() {
             console.log(textileClient);
             if(textileClient) {
-                let openClaims = await queryThread(textileClient, "bafkyaidn2wzfyela7zyi5w63hudaf4sx67duwjdbhxkhgwo3abiozoq", "claimData", {});
+                let openClaims = await queryThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "claimsData", {});
                 console.log(openClaims);
                 setOpenClaims(openClaims);
                 setIsLoadingOpenClaims(false);
@@ -33,7 +35,13 @@ function ClaimsPage() {
                 <TabList justifyContent="space-between">
                     <HStack>
                         <Tab>
-                            Open Claims <GreenTag>2</GreenTag>
+                            Open Claims 
+                            {
+                                openClaims == undefined ?
+                                <GreenTag>0</GreenTag>
+                                :
+                                <GreenTag>{openClaims.length}</GreenTag>
+                            }
                         </Tab>
                         <Tab variant="solid">
                             Accepted Claims <GreenTag>4</GreenTag>
