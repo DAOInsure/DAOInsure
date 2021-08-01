@@ -7,15 +7,18 @@ import { ChakraProvider, Box } from "@chakra-ui/react";
 import theme from './theme';
 import "@fontsource/lato";
 import { Web3Context, Web3ContextProvider } from './utils/Web3Context';
+import { AppContext, AppContextProvider } from "./utils/AppContext";
 
 ReactDOM.render(
   <React.StrictMode>
     <Web3ContextProvider>
-      <ChakraProvider theme={theme}>
-        <Box backgroundColor="whiteAlpha">
-          <App />
-        </Box>
-      </ChakraProvider>
+      <AppContextProvider>
+        <ChakraProvider theme={theme}>
+          <Box backgroundColor="whiteAlpha">
+            <App />
+          </Box>
+        </ChakraProvider>
+      </AppContextProvider>
     </Web3ContextProvider>
   </React.StrictMode>,
   document.getElementById('root')

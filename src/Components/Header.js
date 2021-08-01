@@ -2,7 +2,8 @@ import {
     Heading,
     HStack,
     Button,
-    Spacer 
+    Spacer,
+    Image
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useContext } from "react"; 
@@ -14,28 +15,23 @@ function Header() {
     const { connectWallet, signerAddress }  = web3Context;
 
     return (
-        <HStack zIndex="1000" position="fixed" width="100vw" backgroundColor="whatsapp.500" boxShadow="base" px="250px" py={3}>
+        <HStack backgroundColor="white" zIndex="1" position="fixed" width="100vw" boxShadow="base" px="250px" py={3}>
             <Link to="/">
-                <Heading color="white" fontSize="24px">DAOInsure</Heading>
+                <Image height="35px" src="../assets/DAOInsure.png" />
             </Link>
             <Spacer />
             <Link to="/profile">
-                <Button colorScheme="whiteAlpha">
+                <Button colorScheme="whatsapp">
                     Profile
-                </Button>
-            </Link>
-            <Link to="/voting">
-                <Button colorScheme="whiteAlpha" variant="solid">
-                    Voting
                 </Button>
             </Link>
             {
                 signerAddress !== "" ?
-                <Button colorScheme="whiteAlpha" variant="solid">
+                <Button colorScheme="whatsapp" variant="solid">
                     {signerAddress}
                 </Button>
                 :
-                <Button onClick={() => {connectWallet()}} colorScheme="whiteAlpha" variant="solid">
+                <Button onClick={() => {connectWallet()}} colorScheme="whatsapp" variant="solid">
                     Connect Wallet
                 </Button>
             }
