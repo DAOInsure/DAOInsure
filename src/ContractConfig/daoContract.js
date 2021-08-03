@@ -1,27 +1,42 @@
-export const CONTRACT_ADDRESS = "0xC179e76B61efb39a80Bd01A178EdCf122bD62612";
+export const DAO_CONTRACT_ADDRESS =
+  "0x6830edba228DfaD275182DE35857F01E3E757Ad9";
 
-export const CONTRACT_ABI = [
+export const DAO_CONTRACT_ABI = [
   {
-    inputs: [],
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+      {
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "userVoteForProposal",
+    outputs: [
+      {
+        name: "",
+        type: "bool",
+      },
+    ],
     payable: false,
-    stateMutability: "nonpayable",
-    type: "constructor",
+    stateMutability: "view",
+    type: "function",
   },
   {
     constant: false,
     inputs: [
       {
-        internalType: "address",
         name: "_memberAddress",
         type: "address",
       },
       {
-        internalType: "int256",
         name: "_lat",
         type: "int256",
       },
       {
-        internalType: "int256",
         name: "_long",
         type: "int256",
       },
@@ -33,37 +48,28 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
-    constant: true,
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "arr",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     constant: false,
     inputs: [
       {
-        internalType: "uint256",
         name: "_proposalId",
         type: "uint256",
       },
+      {
+        name: "_vote",
+        type: "bool",
+      },
     ],
-    name: "claimProposal",
-    outputs: [],
+    name: "voteOnProposal",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
@@ -72,22 +78,53 @@ export const CONTRACT_ABI = [
     constant: true,
     inputs: [
       {
-        internalType: "address",
-        name: "_contract",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "_userAddress",
-        type: "address",
+        name: "_proposalId",
+        type: "uint256",
       },
     ],
-    name: "countVotes",
+    name: "returnProposalById",
     outputs: [
       {
-        internalType: "uint256",
+        components: [
+          {
+            name: "proposalId",
+            type: "uint256",
+          },
+          {
+            name: "userAddress",
+            type: "address",
+          },
+          {
+            name: "proposalString",
+            type: "string",
+          },
+          {
+            name: "claimAmount",
+            type: "uint256",
+          },
+          {
+            name: "yesVotes",
+            type: "uint256",
+          },
+          {
+            name: "noVotes",
+            type: "uint256",
+          },
+          {
+            name: "voting",
+            type: "bool",
+          },
+          {
+            name: "passed",
+            type: "bool",
+          },
+          {
+            name: "endTime",
+            type: "uint256",
+          },
+        ],
         name: "",
-        type: "uint256",
+        type: "tuple",
       },
     ],
     payable: false,
@@ -98,12 +135,11 @@ export const CONTRACT_ABI = [
     constant: false,
     inputs: [
       {
-        internalType: "string",
-        name: "_proposalString",
-        type: "string",
+        name: "_proposalId",
+        type: "uint256",
       },
     ],
-    name: "createProposal",
+    name: "settleOutcome",
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
@@ -115,50 +151,8 @@ export const CONTRACT_ABI = [
     name: "daoInsureTokenAddress",
     outputs: [
       {
-        internalType: "address",
         name: "",
         type: "address",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "daoMemberMapping",
-    outputs: [
-      {
-        internalType: "address",
-        name: "memberAddress",
-        type: "address",
-      },
-      {
-        internalType: "int256",
-        name: "lat",
-        type: "int256",
-      },
-      {
-        internalType: "int256",
-        name: "long",
-        type: "int256",
-      },
-      {
-        internalType: "uint256",
-        name: "votes",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "proposals",
-        type: "uint256",
       },
     ],
     payable: false,
@@ -169,98 +163,20 @@ export const CONTRACT_ABI = [
     constant: false,
     inputs: [
       {
-        internalType: "uint256",
-        name: "_proposalId",
-        type: "uint256",
+        name: "_proposalString",
+        type: "string",
       },
     ],
-    name: "endProposalVoting",
+    name: "createProposal",
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    constant: true,
-    inputs: [],
-    name: "proposalIdNumber",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "proposalsMapping",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "proposalId",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "userAddress",
-        type: "address",
-      },
-      {
-        internalType: "string",
-        name: "proposalString",
-        type: "string",
-      },
-      {
-        internalType: "uint256",
-        name: "claimAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "yesVotes",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "noVotes",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "voting",
-        type: "bool",
-      },
-      {
-        internalType: "bool",
-        name: "passed",
-        type: "bool",
-      },
-      {
-        internalType: "uint256",
-        name: "endTime",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     constant: false,
     inputs: [
       {
-        internalType: "address",
         name: "_memberAddress",
         type: "address",
       },
@@ -275,64 +191,80 @@ export const CONTRACT_ABI = [
     constant: true,
     inputs: [
       {
-        internalType: "uint256",
-        name: "_proposalId",
+        name: "",
         type: "uint256",
       },
     ],
-    name: "returnProposalById",
+    name: "proposalsMapping",
     outputs: [
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "proposalId",
-            type: "uint256",
-          },
-          {
-            internalType: "address",
-            name: "userAddress",
-            type: "address",
-          },
-          {
-            internalType: "string",
-            name: "proposalString",
-            type: "string",
-          },
-          {
-            internalType: "uint256",
-            name: "claimAmount",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "yesVotes",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "noVotes",
-            type: "uint256",
-          },
-          {
-            internalType: "bool",
-            name: "voting",
-            type: "bool",
-          },
-          {
-            internalType: "bool",
-            name: "passed",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "endTime",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct Governance.Proposal",
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        name: "userAddress",
+        type: "address",
+      },
+      {
+        name: "proposalString",
+        type: "string",
+      },
+      {
+        name: "claimAmount",
+        type: "uint256",
+      },
+      {
+        name: "yesVotes",
+        type: "uint256",
+      },
+      {
+        name: "noVotes",
+        type: "uint256",
+      },
+      {
+        name: "voting",
+        type: "bool",
+      },
+      {
+        name: "passed",
+        type: "bool",
+      },
+      {
+        name: "endTime",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "superAppContractAddress",
+    outputs: [
+      {
         name: "",
-        type: "tuple",
+        type: "address",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "arr",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
       },
     ],
     payable: false,
@@ -343,12 +275,10 @@ export const CONTRACT_ABI = [
     constant: false,
     inputs: [
       {
-        internalType: "address",
         name: "_tokenAddress",
         type: "address",
       },
       {
-        internalType: "address",
         name: "_superApp",
         type: "address",
       },
@@ -360,15 +290,63 @@ export const CONTRACT_ABI = [
     type: "function",
   },
   {
+    constant: true,
+    inputs: [],
+    name: "proposalIdNumber",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "daoMemberMapping",
+    outputs: [
+      {
+        name: "memberAddress",
+        type: "address",
+      },
+      {
+        name: "lat",
+        type: "int256",
+      },
+      {
+        name: "long",
+        type: "int256",
+      },
+      {
+        name: "votes",
+        type: "uint256",
+      },
+      {
+        name: "proposals",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     constant: false,
     inputs: [
       {
-        internalType: "uint256",
         name: "_proposalId",
         type: "uint256",
       },
     ],
-    name: "settleOutcome",
+    name: "claimProposal",
     outputs: [],
     payable: false,
     stateMutability: "nonpayable",
@@ -376,13 +354,21 @@ export const CONTRACT_ABI = [
   },
   {
     constant: true,
-    inputs: [],
-    name: "superAppContractAddress",
+    inputs: [
+      {
+        name: "_contract",
+        type: "address",
+      },
+      {
+        name: "_userAddress",
+        type: "address",
+      },
+    ],
+    name: "countVotes",
     outputs: [
       {
-        internalType: "address",
         name: "",
-        type: "address",
+        type: "uint256",
       },
     ],
     payable: false,
@@ -393,20 +379,32 @@ export const CONTRACT_ABI = [
     constant: true,
     inputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "",
+        name: "_add",
         type: "address",
       },
     ],
-    name: "userVoteForProposal",
+    name: "returnUserClaims",
     outputs: [
       {
-        internalType: "bool",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_adr",
+        type: "address",
+      },
+    ],
+    name: "isUserADaoMember",
+    outputs: [
+      {
         name: "",
         type: "bool",
       },
@@ -419,31 +417,20 @@ export const CONTRACT_ABI = [
     constant: false,
     inputs: [
       {
-        internalType: "uint256",
         name: "_proposalId",
         type: "uint256",
       },
-      {
-        internalType: "bool",
-        name: "_vote",
-        type: "bool",
-      },
     ],
-    name: "voteOnProposal",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
+    name: "endProposalVoting",
+    outputs: [],
     payable: false,
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
 ];

@@ -10,7 +10,10 @@ import { Web3Context } from "../utils/Web3Context";
 import { useContext } from "react";
 import GreenTag from "../Components/GreenTag";
 import { ethers } from "ethers";
-import { CONTRACT_ADDRESS, CONTRACT_ABI } from "../ContractConfig/superApp";
+import {
+  SUPERAPP_CONTRACT_ADDRESS,
+  SUPERAPP_CONTRACT_ABI,
+} from "../ContractConfig/superApp";
 
 const SuperfluidSDK = require("@superfluid-finance/js-sdk");
 const { Web3Provider } = require("@ethersproject/providers");
@@ -20,7 +23,11 @@ function BecomeMember() {
     useContext(Web3Context);
 
   const joinDao = async () => {
-    let contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+    let contract = new ethers.Contract(
+      SUPERAPP_CONTRACT_ADDRESS,
+      SUPERAPP_CONTRACT_ABI,
+      signer
+    );
 
     console.log(contract);
 
@@ -41,7 +48,7 @@ function BecomeMember() {
 
     await sf.host.batchCall([
       202, // callAppAction to participate
-      CONTRACT_ADDRESS,
+      SUPERAPP_CONTRACT_ADDRESS,
       contract.setCoordinates(-9, -9),
     ]);
 

@@ -4,16 +4,25 @@ import Web3Modal from "web3modal";
 import Portis from "@portis/web3";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
+import {
+  DAO_CONTRACT_ABI,
+  DAO_CONTRACT_ADDRESS,
+} from "../ContractConfig/daoContract";
+import {
+  SUPERTOKEN_CONTRACT_ADDRESS,
+  SUPERTOKEN_CONTRACT_ABI,
+} from "../ContractConfig/superToken";
 
 export const Web3Context = React.createContext(undefined);
 
 export function Web3ContextProvider({ children }) {
   const [web3Modal, setWeb3Modal] = useState(undefined);
   const [provider, setProvider] = useState(undefined);
-  const [signerAddress, setSignerAddress] = useState("");
+  const [signerAddress, setSignerAddress] = useState(undefined);
   const [isPortisLoading, setIsPortisLoading] = useState(false);
   const [infuraRPC, setInfuraRPC] = useState(undefined);
   const [signer, setSigner] = useState(undefined);
+  const [proposalsArray, setProposalsArray] = useState([]);
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -24,7 +33,6 @@ export function Web3ContextProvider({ children }) {
     );
     setInfuraRPC(tp);
     setSigner(signer);
-    console.log(tp);
   };
 
   useEffect(() => {
@@ -81,18 +89,92 @@ export function Web3ContextProvider({ children }) {
 
       const ethersProvider = new ethers.providers.Web3Provider(modalProvider);
       setProvider(ethersProvider);
+      setIsPortisLoading(false);
+      return ethersProvider;
     } catch (e) {
       disconnectWallet();
+      setIsPortisLoading(false);
+
       console.log(e);
     }
-
-    setIsPortisLoading(false);
   }
 
   function disconnectWallet() {
     web3Modal?.clearCachedProvider();
     setProvider(undefined);
   }
+
+  const createProposals = async () => {
+    const signer = provider.getSigner();
+    let contract = new ethers.Contract(
+      "0xf4c8a63Dd1b56847a9ef26efa2Fcc9a4a36663Ee",
+      DAO_CONTRACT_ABI,
+      signer
+    );
+    console.log(contract, signer);
+    const tx = await contract.createProposal("hi");
+    const receipt = await tx.wait();
+    console.log(receipt);
+  };
+
+  const fetchProposals = () => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    contract.returnUserClaims(`${signerAddress}`).then((data) => {
+      const claimIDs = data;
+      claimIDs.forEach(async (element) => {
+        console.log(element.toNumber());
+        let item = await contract.proposalsMapping(element.toNumber());
+        console.log(item);
+        setProposalsArray((oldArray) => [...oldArray, item]);
+      });
+    });
+  };
+
+  // getClaimIDs
+  //   .forEach(async (element) => {
+  //     console.log(element.toNumber());
+  //     let item = await contract.proposalsMapping(element.toNumber());
+  //     console.log(item);
+  //     proposalArray.push(item);
+  //   })
+  //   .
+  //     return proposalArray;
+  //   });
+
+  const checkIfMemberExists = async (provider) => {
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+
+    const signerAdd = ethers.utils.getAddress(address);
+
+    console.log(provider);
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      provider
+    );
+    let status = await contract.isUserADaoMember(`${signerAdd}`);
+    console.log(status);
+
+    return status;
+  };
+
+  const userDaoTokenBalance = async () => {
+    let contract = new ethers.Contract(
+      SUPERTOKEN_CONTRACT_ADDRESS,
+      SUPERTOKEN_CONTRACT_ABI,
+      provider
+    );
+    let balance = await contract.balanceOf(`${signerAddress}`);
+    let decimalBalance = ethers.utils.formatEther(balance);
+    console.log(decimalBalance);
+    return decimalBalance;
+  };
 
   return (
     <Web3Context.Provider
@@ -104,6 +186,11 @@ export function Web3ContextProvider({ children }) {
         isPortisLoading,
         signerAddress,
         infuraRPC,
+        createProposals,
+        checkIfMemberExists,
+        fetchProposals,
+        userDaoTokenBalance,
+        proposalsArray,
       }}
     >
       {children}

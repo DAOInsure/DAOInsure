@@ -1,6 +1,7 @@
-export const CONTRACT_ADDRESS = "0x24d79E40194C575B44cC0A9F3C81bc2e77dc9638";
+export const SUPERTOKEN_CONTRACT_ADDRESS =
+  "0x24d79E40194C575B44cC0A9F3C81bc2e77dc9638";
 
-export const CONTRACT_ABI = [
+export const SUPERTOKEN_CONTRACT_ABI = [
   {
     anonymous: false,
     inputs: [
