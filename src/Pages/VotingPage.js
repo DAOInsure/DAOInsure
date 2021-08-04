@@ -61,7 +61,7 @@ function VotingPage() {
             setLoadingClaim(false);
             console.log("listening");
             let closer = await textileClient.listen(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), [{actionTypes: ['CREATE'], collectionName: "messagesData" }], (reply, error) => {
-                console.log(reply.instance.message);    
+                setMessages([...messages, reply.instance]);    
             });
             return function cleanup() {
                 closer();

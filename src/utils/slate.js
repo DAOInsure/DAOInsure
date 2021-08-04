@@ -1,5 +1,5 @@
 export async function uploadToSlate(file) {
-    const url = 'https://uploads.slate.host/api/public/0e3b9b38-1c95-4fe9-ab18-3a025b0ec8a0'; // collection ID
+    const url = 'https://uploads.slate.host/api/public/626533fc-0557-4f70-8754-d2a6613ce747'; // collection ID
     let data = new FormData();
     data.append("data", file);
     try {
@@ -12,7 +12,7 @@ export async function uploadToSlate(file) {
         });
         console.log(response);
         let result = await response.json();  
-        
+        console.log(result);
         return result;
     } catch(e) {
         console.log(e);

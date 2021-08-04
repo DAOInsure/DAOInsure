@@ -196,7 +196,7 @@ function MakeClaim() {
                                             <InputGroup>
                                                 <Input onChange={(e) => handleInputChange(e, setClaimAmount)} type="number" />
                                                 <InputRightAddon>
-                                                    USDCx
+                                                    DAIx
                                                 </InputRightAddon>
                                             </InputGroup>
                                         </Skeleton>
@@ -211,7 +211,7 @@ function MakeClaim() {
             <VStack width="100%">
                 <Card isLoading={isPageLoading} cardTitle="Claimable">
                     <Skeleton isLoaded={!isPageLoading}>
-                        <Heading textColor="whatsapp.500" fontSize="24px" as="h3">1,301 USDCx</Heading>
+                        <Heading textColor="whatsapp.500" fontSize="24px" as="h3">1,301 DAIx</Heading>
                     </Skeleton>
                 </Card>
             </VStack>

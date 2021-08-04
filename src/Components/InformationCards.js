@@ -149,11 +149,11 @@ function InformationCards({ author, loadingClaim, dateOfIncident, startTime }) {
                             </Skeleton>
                             :
                             <Text fontWeight="600">
-                                95%
+                                5%
                             </Text>
                         }
                     </HStack>
-                    <Progress width="100%" borderRadius="20px" background="gray.300" height="10px" value={loadingClaim ? 0: 95} colorScheme="green" size="lg" />
+                    <Progress width="100%" borderRadius="20px" background="gray.300" height="10px" value={loadingClaim ? 0: 5} colorScheme="green" size="lg" />
                 </VStack>
             </Card>
             <Card cardTitle="OpenWeather Analysis">
