@@ -118,33 +118,24 @@ export function Web3ContextProvider({ children }) {
   };
 
   const fetchProposals = () => {
-    let contract = new ethers.Contract(
-      DAO_CONTRACT_ADDRESS,
-      DAO_CONTRACT_ABI,
-      signer
-    );
+    if (proposalsArray.length == 0) {
+      let contract = new ethers.Contract(
+        DAO_CONTRACT_ADDRESS,
+        DAO_CONTRACT_ABI,
+        signer
+      );
 
-    contract.returnUserClaims(`${signerAddress}`).then((data) => {
-      const claimIDs = data;
-      claimIDs.forEach(async (element) => {
-        console.log(element.toNumber());
-        let item = await contract.proposalsMapping(element.toNumber());
-        console.log(item);
-        setProposalsArray((oldArray) => [...oldArray, item]);
+      contract.returnUserClaims(`${signerAddress}`).then((data) => {
+        const claimIDs = data;
+        claimIDs.forEach(async (element) => {
+          console.log(element.toNumber());
+          let item = await contract.proposalsMapping(element.toNumber());
+          console.log(item);
+          setProposalsArray((oldArray) => [...oldArray, item]);
+        });
       });
-    });
+    }
   };
-
-  // getClaimIDs
-  //   .forEach(async (element) => {
-  //     console.log(element.toNumber());
-  //     let item = await contract.proposalsMapping(element.toNumber());
-  //     console.log(item);
-  //     proposalArray.push(item);
-  //   })
-  //   .
-  //     return proposalArray;
-  //   });
 
   const checkIfMemberExists = async (provider) => {
     const signer = provider.getSigner();
@@ -152,14 +143,14 @@ export function Web3ContextProvider({ children }) {
 
     const signerAdd = ethers.utils.getAddress(address);
 
-    console.log(provider);
+    // console.log(provider);
     let contract = new ethers.Contract(
       DAO_CONTRACT_ADDRESS,
       DAO_CONTRACT_ABI,
       provider
     );
     let status = await contract.isUserADaoMember(`${signerAdd}`);
-    console.log(status);
+    // console.log(status);
 
     return status;
   };

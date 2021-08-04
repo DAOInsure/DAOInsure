@@ -37,7 +37,9 @@ function App() {
                 </CustomRoute>{" "}
               </div>
             ) : (
-              <BecomeMember />
+              <Route>
+                <BecomeMember />
+              </Route>
             )}
             {/* <Route exact path="/become-a-member">
               <BecomeMember />

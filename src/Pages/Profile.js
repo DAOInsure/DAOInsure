@@ -36,7 +36,9 @@ function Profile() {
     fetchProposals,
     proposalsArray,
   } = web3Context;
+
   const [daoTokenBalance, setDaoTokenBalance] = useState(0);
+  const [stable, setStable] = useState(false);
 
   useEffect(() => {
     setInterval(async () => {
@@ -46,7 +48,7 @@ function Profile() {
 
   useEffect(() => {
     fetchProposals();
-  }, []);
+  }, [stable]);
 
   function con() {
     console.log(proposalsArray);
@@ -103,25 +105,23 @@ function Profile() {
             <TabPanel mt={3} padding={0}>
               <Card cardTitle="Claims">
                 <Table>
-                  {proposalsArray.length == 0 ? (
-                    <Tbody>
-                      <Tr>
-                        <Th></Th>
-                        <Th></Th>
-                      </Tr>
-                    </Tbody>
-                  ) : (
-                    <Tbody>
-                      {proposalsArray.forEach((element) => {
-                        return (
-                          <Tr>
-                            <Th>{element[2]}</Th>
-                            <Th>{element[7]}</Th>
-                          </Tr>
-                        );
-                      })}
-                    </Tbody>
-                  )}
+                  <Tbody>
+                    {proposalsArray.map(function (element, id) {
+                      return (
+                        <Tr key={id}>
+                          <Th> {element[0].toNumber()} </Th>
+                          <Th>{element[2]}</Th>
+                          <Th>
+                            {element[7] ? (
+                              <span> Passed </span>
+                            ) : (
+                              <span> Failed </span>
+                            )}
+                          </Th>
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
                 </Table>
               </Card>
             </TabPanel>
