@@ -34,7 +34,9 @@ function Profile() {
     signer,
     userDaoTokenBalance,
     fetchProposals,
+    fetchVotedProposals,
     proposalsArray,
+    votedProposalsArray,
   } = web3Context;
 
   const [daoTokenBalance, setDaoTokenBalance] = useState(0);
@@ -48,6 +50,7 @@ function Profile() {
 
   useEffect(() => {
     fetchProposals();
+    fetchVotedProposals();
   }, [stable]);
 
   function con() {
@@ -98,8 +101,12 @@ function Profile() {
                 {proposalsArray.length}
               </Tag>
             </Tab>
-            {/* <Tab>Closed Claims</Tab> */}
-            <Tab>Voted For</Tab>
+            <Tab>
+              Voted For
+              <Tag ml={2} borderRadius="20px">
+                {votedProposalsArray.length}
+              </Tag>
+            </Tab>
           </TabList>
           <TabPanels>
             <TabPanel mt={3} padding={0}>
@@ -107,6 +114,29 @@ function Profile() {
                 <Table>
                   <Tbody>
                     {proposalsArray.map(function (element, id) {
+                      return (
+                        <Tr key={id}>
+                          <Th> {element[0].toNumber()} </Th>
+                          <Th>{element[2]}</Th>
+                          <Th>
+                            {element[7] ? (
+                              <span> Passed </span>
+                            ) : (
+                              <span> Failed </span>
+                            )}
+                          </Th>
+                        </Tr>
+                      );
+                    })}
+                  </Tbody>
+                </Table>
+              </Card>
+            </TabPanel>
+            <TabPanel mt={3} padding={0}>
+              <Card cardTitle="Claims">
+                <Table>
+                  <Tbody>
+                    {votedProposalsArray.map(function (element, id) {
                       return (
                         <Tr key={id}>
                           <Th> {element[0].toNumber()} </Th>

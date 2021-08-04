@@ -23,6 +23,11 @@ export function Web3ContextProvider({ children }) {
   const [infuraRPC, setInfuraRPC] = useState(undefined);
   const [signer, setSigner] = useState(undefined);
   const [proposalsArray, setProposalsArray] = useState([]);
+  const [votedProposalsArray, setVotedProposalsArray] = useState([]);
+  const [allProposalsArray, setAllProposalsArray] = useState([]);
+  const [openProposalsArray, setOpenProposalsArray] = useState([]);
+  const [acceptedProposalsArray, setAcceptedProposalsArray] = useState([]);
+  const [rejectedProposalsArray, setRejectedProposalsArray] = useState([]);
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -137,6 +142,60 @@ export function Web3ContextProvider({ children }) {
     }
   };
 
+  const fetchVotedProposals = () => {
+    if (votedProposalsArray.length == 0) {
+      let contract = new ethers.Contract(
+        DAO_CONTRACT_ADDRESS,
+        DAO_CONTRACT_ABI,
+        signer
+      );
+
+      contract.returnUserVotes(`${signerAddress}`).then((data) => {
+        const claimIDs = data;
+        claimIDs.forEach(async (element) => {
+          console.log(element.toNumber());
+          let item = await contract.proposalsMapping(element.toNumber());
+          console.log(item);
+          setVotedProposalsArray((oldArray) => [...oldArray, item]);
+        });
+      });
+    }
+  };
+
+  const fetchAllProposals = async () => {
+    if (allProposalsArray.length == 0) {
+      let contract = new ethers.Contract(
+        DAO_CONTRACT_ADDRESS,
+        DAO_CONTRACT_ABI,
+        signer
+      );
+      let proposalsNum = await contract.proposalIdNumber();
+      sortProposals(contract, proposalsNum.toNumber());
+    }
+  };
+
+  const sortProposals = async (contract, number) => {
+    for (let i = 0; i < number; i++) {
+      let proposal = await contract.proposalsMapping(i);
+      console.log(proposal);
+      setAllProposalsArray((oldArray) => [...oldArray, proposal]);
+
+      switch (proposal[6]) {
+        case true:
+          setOpenProposalsArray((oldArray) => [...oldArray, proposal]);
+          break;
+
+        case false:
+          if (proposal[7] === true) {
+            setAcceptedProposalsArray((oldArray) => [...oldArray, proposal]);
+          } else if (proposal[7] === false) {
+            setRejectedProposalsArray((oldArray) => [...oldArray, proposal]);
+          }
+          break;
+      }
+    }
+  };
+
   const checkIfMemberExists = async (provider) => {
     const signer = provider.getSigner();
     const address = await signer.getAddress();
@@ -182,6 +241,13 @@ export function Web3ContextProvider({ children }) {
         fetchProposals,
         userDaoTokenBalance,
         proposalsArray,
+        fetchVotedProposals,
+        fetchAllProposals,
+        allProposalsArray,
+        acceptedProposalsArray,
+        rejectedProposalsArray,
+        openProposalsArray,
+        votedProposalsArray,
       }}
     >
       {children}

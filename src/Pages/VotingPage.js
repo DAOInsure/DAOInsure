@@ -59,7 +59,7 @@ function RadioCard(props) {
   );
 }
 
-function VotingPage() {
+function VotingPage(props) {
   const { textileClient } = useContext(AppContext);
   const [currentImage, setCurrentImage] = useState(
     "https://wallpaperaccess.com/full/30100.jpg"
@@ -142,7 +142,14 @@ function VotingPage() {
       alignItems="flex-start"
     >
       <VStack alignItems="flex-start" width="100%">
-        <Heading fontSize="24px">Flood Destoyed my farm!</Heading>
+        <Heading
+          fontSize="24px"
+          onClick={() => {
+            console.log(props);
+          }}
+        >
+          Flood Destoyed my farm!
+        </Heading>
         <Tag>Open</Tag>
         <Box mt="10px !important" boxShadow="lg" borderRadius="10px">
           <Image borderRadius="10px" src={currentImage} />
