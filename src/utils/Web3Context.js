@@ -58,6 +58,12 @@ export function Web3ContextProvider({ children }) {
         package: Portis,
         options: {
           id: "e6e65744-ec7a-4360-a174-d88df93094cc",
+          // network: {
+          //   nodeUrl:
+          //     "https://polygon-mumbai.infura.io/v3/a466d43409994804b44149a1283d131f",
+          //   chainId: 80001,
+          // },
+          network: "maticMumbai",
         },
       },
     };
@@ -209,7 +215,7 @@ export function Web3ContextProvider({ children }) {
       provider
     );
     let status = await contract.isUserADaoMember(`${signerAdd}`);
-    // console.log(status);
+    console.log(status);
 
     return status;
   };

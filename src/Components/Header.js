@@ -15,7 +15,7 @@ function Header(props) {
 
   function connect() {
     connectWallet().then((data) => {
-      console.log(data);
+      console.log("header1,", data);
       checkIfMemberExists(data).then((value) => {
         if (value === true) {
           props.setIsMember(true);
