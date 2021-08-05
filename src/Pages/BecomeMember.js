@@ -1,49 +1,102 @@
-import { VStack, Button, Heading, UnorderedList, ListItem, Tag } from "@chakra-ui/react";
+import {
+  VStack,
+  Button,
+  Heading,
+  UnorderedList,
+  ListItem,
+  Tag,
+} from "@chakra-ui/react";
 import { Web3Context } from "../utils/Web3Context";
 import { useContext } from "react";
 import GreenTag from "../Components/GreenTag";
+import { ethers } from "ethers";
+import {
+  SUPERAPP_CONTRACT_ADDRESS,
+  SUPERAPP_CONTRACT_ABI,
+} from "../ContractConfig/superApp";
+
+const SuperfluidSDK = require("@superfluid-finance/js-sdk");
+const { Web3Provider } = require("@ethersproject/providers");
 
 function BecomeMember() {
+  const { signerAddress, infuraRPC, provider, signer } =
+    useContext(Web3Context);
 
-    const { signerAddress } = useContext(Web3Context);
-
-    return ( 
-        <VStack spacing={5} mt="20px">
-            <Heading fontSize="32px">
-                Become A Member
-            </Heading>
-            <Heading fontSize="24px">
-                How it works?
-            </Heading>
-            <UnorderedList>
-                <ListItem>
-                    DAOInsure provides insurances to its members based on DAO voting
-                </ListItem>
-                <ListItem>
-                    DAO members stream insurance premium to the treasury.
-                </ListItem>
-                <ListItem>
-                    In exchange for premium paid the members get voting power.
-                </ListItem>
-                <ListItem>
-                    Use voting power to approve other fellow member's claim.
-                </ListItem>
-            </UnorderedList>
-            <Heading fontSize="24px">
-                Become A Member just 10 USDCx / Month
-            </Heading>
-            {
-                signerAddress ?
-                <Button colorScheme="whatsapp">
-                    Join the DAO
-                </Button>
-                :
-                <GreenTag>
-                    Please connect wallet first
-                </GreenTag>
-            }
-        </VStack>
+  const joinDao = async () => {
+    let contract = new ethers.Contract(
+      SUPERAPP_CONTRACT_ADDRESS,
+      SUPERAPP_CONTRACT_ABI,
+      signer
     );
+
+    console.log(contract);
+
+    const sf = new SuperfluidSDK.Framework({
+      ethers: provider,
+    });
+
+    await sf.initialize();
+
+    const walletAddress = await window.ethereum.request({
+      method: "eth_requestAccounts",
+      params: [
+        {
+          eth_accounts: {},
+        },
+      ],
+    });
+
+    function createPlayBatchCall(upgradeAmount = 0) {
+      return [
+        [
+          202, // upgrade 100 daix to play the game
+          "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+          contract.interface.encodeFunctionData(["int256", "int256"], [-9, 9]),
+        ],
+        [
+          2, // approve the ticket fee
+          {
+            token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f", // Super Tokens only
+            amount: "1000000000000000000",
+            sender: "0x4108424e30dfCe6E9cA41e707C2c64FA5704A01A",
+            recipient: SUPERAPP_CONTRACT_ADDRESS,
+          },
+        ],
+      ];
+    }
+
+    // Call the host with the batch call parameters
+    await sf.host.batchCall(createPlayBatchCall(100));
+  };
+
+  return (
+    <VStack spacing={5} mt="20px">
+      <Heading fontSize="32px">Become A Member</Heading>
+      <Heading fontSize="24px">How it works?</Heading>
+      <UnorderedList>
+        <ListItem>
+          DAOInsure provides insurances to its members based on DAO voting
+        </ListItem>
+        <ListItem>
+          DAO members stream insurance premium to the treasury.
+        </ListItem>
+        <ListItem>
+          In exchange for premium paid the members get voting power.
+        </ListItem>
+        <ListItem>
+          Use voting power to approve other fellow member's claim.
+        </ListItem>
+      </UnorderedList>
+      <Heading fontSize="24px">Become A Member just 10 DAIx / Month</Heading>
+      {signerAddress ? (
+        <Button colorScheme="whatsapp" onClick={joinDao}>
+          Join the DAO
+        </Button>
+      ) : (
+        <GreenTag>Please connect wallet first</GreenTag>
+      )}
+    </VStack>
+  );
 }
 
 export default BecomeMember;

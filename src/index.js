@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
 import { ChakraProvider, Box } from "@chakra-ui/react";
-import theme from './theme';
+import theme from "./theme";
 import "@fontsource/lato";
-import { Web3Context, Web3ContextProvider } from './utils/Web3Context';
+import { Web3Context, Web3ContextProvider } from "./utils/Web3Context";
 import { AppContext, AppContextProvider } from "./utils/AppContext";
 
 ReactDOM.render(
@@ -21,7 +21,7 @@ ReactDOM.render(
       </AppContextProvider>
     </Web3ContextProvider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
