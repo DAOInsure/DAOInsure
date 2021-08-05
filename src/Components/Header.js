@@ -47,9 +47,9 @@ function Header(props) {
         </Button>
       </Link>
 
-      {signerAddress !== "" ? (
+      {(signerAddress !== "" && signerAddress !== undefined) ? (
         <Button colorScheme="whatsapp" variant="solid">
-          {signerAddress}
+          {`${signerAddress.substr(0,6)}...${signerAddress.substr(-6)}`}
         </Button>
       ) : (
         <Button onClick={connect} colorScheme="whatsapp" variant="solid">
