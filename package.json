@@ -7,6 +7,8 @@
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
     "@ethersproject/contracts": "^5.4.0",
+    "@fleekhq/fleek-cli": "^0.1.5",
+    "@fleekhq/fleek-storage-js": "^1.0.17",
     "@fontsource/lato": "^4.5.0",
     "@metamask/jazzicon": "^2.0.0",
     "@portis/web3": "^4.0.5",
@@ -26,6 +28,7 @@
     "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1",
     "web3": "^1.4.0",
     "web3modal": "^1.9.3"

@@ -45,14 +45,14 @@ function ClaimsList({ claims }) {
                     borderColor="whatsapp.500"
                     padding="2px"
                   >
-                    <Avatar src="https://worker.snapshot.org/mirror?img=https%3A%2F%2Fraw.githubusercontent.com%2Fsnapshot-labs%2Fsnapshot-spaces%2Fmaster%2Fspaces%2Fgitcoindao.eth%2Fspace.png" />
+                    <Avatar size="sm" icon={<Jazzicon diameter="32" address={claim[1]} />} />
                   </Box>
-                  <Text>{claim[2]}</Text>
+                  <Text>{claim[1]}</Text>
                   <Tag colorScheme="whatsapp" fontWeight="600">
-                    Yes : {claim[4].toNumber()}
+                    👍 : {claim[4].toNumber()}
                   </Tag>
                   <Tag colorScheme="whatsapp" fontWeight="600">
-                    No : {claim[5].toNumber()}
+                    👎 : {claim[5].toNumber()}
                   </Tag>
                 </HStack>
               </Box>
@@ -70,13 +70,12 @@ function ClaimsList({ claims }) {
                 Open
               </Tag> */}
 
-              <Link cursor="pointer" to={`/claim/${claim[0].toNumber()}`}>
-                Open
-              </Link>
             </HStack>
-            <Heading fontSize="20px" textColor="whatsapp.500">
-              {claim[1]}
-            </Heading>
+            <Link cursor="pointer" to={`/claim/${claim[0].toNumber()}`}>
+              <Heading fontSize="20px" textColor="whatsapp.500">
+                {claim[2]}
+              </Heading>
+            </Link>
             <Text>{claim.claimSummary}</Text>
             <Text fontWeight="600">{claim.startTime}</Text>
           </VStack>

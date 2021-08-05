@@ -57,6 +57,7 @@ function ClaimsPage() {
 
   useEffect(() => {
     fetchAllProposals();
+    console.log(openProposalsArray);
   }, []);
 
   return (

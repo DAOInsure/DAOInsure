@@ -6,13 +6,15 @@ import { connectToInfuraIpfs } from "../utils/ipfs";
 import { addToThread } from "../utils/textile";
 import { AppContext } from "../utils/AppContext";
 import { uploadToSlate } from "../utils/slate";
+import fleekStorage from "@fleekhq/fleek-storage-js";
+import { v4 as uuidv4 } from "uuid";
 
 var ipfs;
 
 function MakeClaim() {
     const [ currentImage, setCurrentImage ] = useState(undefined);
     const [ images, setImages ] = useState([]);
-    const [ isPageLoading, setIsPageLoading ] = useState(true);
+    const [ isPageLoading, setIsPageLoading ] = useState(false);
     const { textileClient } = useContext(AppContext);
     const [ claimTitle, setClaimTitle ] = useState();
     const [ claimSummary, setClaimSummary ] = useState();
@@ -21,36 +23,36 @@ function MakeClaim() {
     const [ claimAmount, setClaimAmount ] = useState();
 
 
-    useEffect(() => {
-        async function init() {
-            setIsPageLoading(true);
-            ipfs = await connectToInfuraIpfs();
-            const response = await fetch('https://slate.host/api/v2/get', 
-            {  
-                method: 'GET',  
-                headers: {    
-                    'Content-Type': 'application/json',    
-                    Authorization: 'Basic SLA99335abb-4736-4871-b037-0241236029a7TE',  
-                }
-            });
-            console.log(response);
-            if (!response) {  
-                console.log("No response");  
-                return;
-            }
-            const json = await response.json();
-            if (json.error) {  
-                console.log(json);
-            } else {  
-                const collections = json.collections;  
-                const user = json.user;
-                console.log(collections);
-            }
+    // useEffect(() => {
+        // async function init() {
+            // setIsPageLoading(true);
+            // ipfs = await connectToInfuraIpfs();
+            // const response = await fetch('https://slate.host/api/v2/get', 
+            // {  
+            //     method: 'GET',  
+            //     headers: {    
+            //         'Content-Type': 'application/json',    
+            //         Authorization: 'Basic SLA99335abb-4736-4871-b037-0241236029a7TE',  
+            //     }
+            // });
+            // console.log(response);
+            // if (!response) {  
+            //     console.log("No response");  
+            //     return;
+            // }
+            // const json = await response.json();
+            // if (json.error) {  
+            //     console.log(json);
+            // } else {  
+            //     const collections = json.collections;  
+            //     const user = json.user;
+            //     console.log(collections);
+            // }
 
-            setIsPageLoading(false);
-        }
-        init();
-    }, [])
+            // setIsPageLoading(false);
+        // }
+        // init();
+    // }, [])
 
     const handleImage = async (e) => {
         console.log("uploading");
@@ -96,7 +98,13 @@ function MakeClaim() {
             author: "0x22b2DD2CFEF2018D15543c484aceF6D9B5435863"
         }
         console.log(claimObj);
-        let response = await addToThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "claimsData", claimObj);
+        let response = await fleekStorage.upload({
+            apiKey: "3aFyv9UlnpyVvuhdoy+WMA==",
+            apiSecret: "vUREhYRSH5DP8WehKP+N8jTLoOJUBw+RA9TPLUKneK8=",
+            key: uuidv4(),
+            data: JSON.stringify(claimObj)
+        });
+        // let response = await addToThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "claimsData", claimObj);
         console.log(response);
     }
     
