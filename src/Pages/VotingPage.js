@@ -1,15 +1,47 @@
 import { Grid, Heading, VStack, Tag, Image, Box, HStack, Text, Button, useRadio, useRadioGroup, Input, Skeleton, InputRightElement, IconButton, Icon, InputGroup, Avatar, Tooltip, Spinner } from "@chakra-ui/react";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useReducer } from "react";
 import Card from "../Components/Card";
 import InformationCards from "../Components/InformationCards";
 import { ImAttachment } from "react-icons/im";
-import { MdImage } from "react-icons/md";
+import { MdImage, MdSwapVerticalCircle } from "react-icons/md";
 import Jazzicon from "../Components/Jazzicon";
 import { AppContext } from "../utils/AppContext";
 import { uploadToSlate } from "../utils/slate";
 import { addToThread, queryThread } from "../utils/textile";
 import { Client, ThreadID } from "@textile/hub";
 import { useParams } from "react-router-dom";
+
+
+const ACTIONS = {
+    SET_CURR_IMAGE: "set-curr-image",
+    SET_SEND_IMAGE: "set-send-image",
+    SET_MESSAGE: "set-message",
+    SET_MESSAGES: "set-messages",
+    SET_CLAIM: "set-claim",
+    SET_LOADING_CLAIM: "set-loading-claim",
+    SET_VOTE: "set-vote"
+}
+
+function stateReducer(state, action) {
+    switch(action.type) {
+        case ACTIONS.SET_CURR_IMAGE:
+            return { ...state, currentImage: action.payload }
+        case ACTIONS.SET_SEND_IMAGE:
+            return { ...state, sendImage: action.payload }
+        case ACTIONS.SET_MESSAGE:
+            return { ...state, message: action.payload }
+        case ACTIONS.SET_MESSAGES:
+            return { ...state, messages: [...action.payload] }
+        case ACTIONS.SET_CLAIM:
+            return { ...state, claim: action.payload }
+        case ACTIONS.SET_LOADING_CLAIM:
+            return { ...state, loadingClaim: action.payload }
+        case ACTIONS.SET_VOTE:
+            return { ...state, vote: action.payload }
+        default:
+            return state;
+    }
+}
 
 function RadioCard(props) {
     const { getInputProps, getCheckboxProps } = useRadio(props);
@@ -31,7 +63,7 @@ function RadioCard(props) {
 function VotingPage() {
 
     
-
+    const [ state, dispatch ] = useReducer(stateReducer, { currentImage: "", sendImage: "", message: "", messages: [], claim: "", loadingClaim: true, vote: 0 });
     const { textileClient } = useContext(AppContext);
     const [ currentImage, setCurrentImage ] = useState("https://wallpaperaccess.com/full/30100.jpg");
     const [ sendImage, setSendImage ] = useState();
@@ -40,28 +72,30 @@ function VotingPage() {
     const { id } = useParams();
     const [ claim, setClaim ] = useState();
     const [ loadingClaim, setLoadingClaim ] = useState(true);
+    const [ vote, setVote ] = useState(0);
     const { getRootProps, getRadioProps } = useRadioGroup({
         name: "Vote",
-        defaultValue:"no",
-        onChange: console.log
+        defaultValue:"No",
+        onChange: (e) => handleRadioChange(e)
     });
+
 
     useEffect(() => {
         async function init() {
             
             let claim = await textileClient.findByID(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), "claimsData", id);
             console.log(claim);
-            setClaim(claim);
+            dispatch({ type: ACTIONS.SET_CLAIM, payload: claim });
 
             let messages = await queryThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "messagesData", { claimId: id });
             console.log(messages); 
 
-            setMessages(messages);
+            dispatch({ type: ACTIONS.SET_MESSAGES, payload: messages })
 
-            setLoadingClaim(false);
+            dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
             console.log("listening");
             let closer = await textileClient.listen(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), [{actionTypes: ['CREATE'], collectionName: "messagesData" }], (reply, error) => {
-                setMessages([...messages, reply.instance]);    
+                dispatch({ type: ACTIONS.SET_MESSAGES, payload: [...messages, reply.instance] });    
             });
             return function cleanup() {
                 closer();
@@ -76,15 +110,23 @@ function VotingPage() {
     const group = getRootProps();
 
     const handleImage = ({ target }) => {
-        setCurrentImage(target.src);
+        dispatch({ type: ACTIONS.SET_CURR_IMAGE, payload: target.src });
+    }
+
+    const handleRadioChange = (e) => {
+        if(e == "Yes") {
+            dispatch({ type: ACTIONS.SET_VOTE, payload: 1 });
+        } else {
+            dispatch({ type: ACTIONS.SET_VOTE, payload: 0 });
+        }
     }
 
     const handleMessage = ({ target }) => {
-        setMessage(target.value);
+        dispatch({ type: ACTIONS.SET_MESSAGE, payload: target.value });
     }
 
     const handleSendImageChange = ({ target }) => {
-        setSendImage(target.files[0]);
+        dispatch({ type: ACTIONS.SET_SEND_IMAGE, payload: target.files[0] });
     }
 
     const handleSendMessage = async () => {
@@ -105,9 +147,9 @@ function VotingPage() {
         let resultFromTextile = await addToThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "messagesData", messageObj);
         console.log(resultFromTextile);
         console.log("Message Sent", messageObj);
-        setMessage("");
-        setSendImage();
-        setMessages([...messages, messageObj]);
+        dispatch({ type: ACTIONS.SET_MESSAGE, payload: "" }); 
+        dispatch({ type: ACTIONS.SET_SEND_IMAGE, payload: "" });
+        dispatch({ type: ACTIONS.SET_MESSAGES, payload: [...messages, messageObj] });
     } 
 
     return (
@@ -115,13 +157,13 @@ function VotingPage() {
             
             <VStack alignItems="flex-start" width="100%">
                 {
-                    loadingClaim ?    
+                    state.loadingClaim ?    
                     <> 
                         <HStack width="100%" justifyContent="space-between">
-                            <Skeleton isLoaded={!loadingClaim}>
+                            <Skeleton isLoaded={!state.loadingClaim}>
                                 Loading Claim
                             </Skeleton>
-                            <Skeleton isLoaded={!loadingClaim}>
+                            <Skeleton isLoaded={!state.loadingClaim}>
                                 Claim Status
                             </Skeleton>
                         </HStack>
@@ -133,20 +175,20 @@ function VotingPage() {
                     :
                     <>
                         <HStack width="100%" justifyContent="space-between">
-                            <Heading fontSize="24px">{claim.claimTitle}</Heading>
+                            <Heading fontSize="24px">{state.claim.claimTitle}</Heading>
                             <Tag>Open</Tag>
                         </HStack>
                         {
-                            claim.images.length == 0 ?
+                            state.claim.images.length == 0 ?
                             null
                             :
                             <>
                                 <Box mt="10px !important" boxShadow="lg" borderRadius="10px">
-                                <Image  borderRadius="10px" src={currentImage} />
+                                <Image  borderRadius="10px" src={state.currentImage} />
                                 </Box>
                                 <HStack>
                                 {
-                                    claim.images.map((image) => {
+                                    state.claim.images.map((image) => {
                                         return (
                                             <Image onClick={handleImage} borderRadius="10px" height="70px" src={image.url} />
                                         );  
@@ -158,7 +200,7 @@ function VotingPage() {
                             </>
                         }
                         <Text>
-                            {claim.claimSummary}
+                            {state.claim.claimSummary}
                         </Text>
                     </>
                 }
@@ -167,7 +209,7 @@ function VotingPage() {
                 
                 <Card cardTitle="Cast Your Vote">
                     {
-                        loadingClaim ?
+                        state.loadingClaim ?
                         <Spinner margin="auto" borderColor="whatsapp.500" />
                         :
                         <>
@@ -189,13 +231,13 @@ function VotingPage() {
                     </Card>
                 <Card  cardTitle="Chat">
                     {
-                        loadingClaim ?
+                        state.loadingClaim ?
                         <Spinner borderColor="whatsapp.500" margin="auto" />
                         :
                         <VStack  height="400px" spacing={5} justifyContent="flex-end" width="100%" alignItems="flex-start">
                             <VStack alignItems="flex-start" overflowY="scroll" width="100%">
                                 {
-                                    messages.map((message) => {
+                                    state.messages.map((message) => {
                                         return (
                                             <HStack key={message.image} key={message._id} alignItems="flex-end">
                                                 <Tooltip placement="top" hasArrow label={`${message.address.substr(0,6)}...${message.address.substr(-4)}`}>
@@ -221,10 +263,10 @@ function VotingPage() {
                             </VStack>
                             <HStack>
                                 {
-                                    sendImage ?
-                                    <HStack borderColor="whatsapp.500" borderWidth="1px" padding={2} borderRadius="10px" key={sendImage.name}>
+                                    state.sendImage ?
+                                    <HStack borderColor="whatsapp.500" borderWidth="1px" padding={2} borderRadius="10px" key={state.sendImage.name}>
                                         <MdImage />
-                                        <Text>{sendImage.name}</Text>
+                                        <Text>{state.sendImage.name}</Text>
                                     </HStack>
                                     :
                                     null                                
@@ -233,7 +275,7 @@ function VotingPage() {
                             
                             <HStack width="100%">
                                 <InputGroup>
-                                    <Input value={message} onChange={handleMessage} borderRadius="20px" focusBorderColor="whatsapp.500" />
+                                    <Input value={state.message} onChange={handleMessage} borderRadius="20px" focusBorderColor="whatsapp.500" />
                                         <InputRightElement>
                                             <IconButton cursor="pointer" as="label" htmlFor="image-input" colorScheme="whatsapp" icon={<ImAttachment />} />
                                             <input onChange={(e) => handleSendImageChange(e)} type="file" id="image-input" style={{ display: "none"}} /> 
@@ -246,10 +288,10 @@ function VotingPage() {
                 </Card>
             </VStack>
             {
-                loadingClaim ?
-                <InformationCards loadingClaim={loadingClaim} />
+                state.loadingClaim ?
+                <InformationCards loadingClaim={state.loadingClaim} />
                 :
-                <InformationCards author={claim.author} startDate={claim.startTime} dateOfIncident={claim.dateOfIncident}  />
+                <InformationCards author={state.claim.author} startDate={state.claim.startTime} dateOfIncident={state.claim.dateOfIncident}  />
             }
         </Grid>
     );
