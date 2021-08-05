@@ -70,6 +70,7 @@ export function Web3ContextProvider({ children }) {
 
     let w3m = new Web3Modal({
       providerOptions,
+      network: "rinkeby", // optional
     });
 
     setWeb3Modal(w3m);

@@ -68,18 +68,12 @@ function ClaimsList({ claims }) {
                 Open
               </Tag> */}
 
-              <Link
-                to={{
-                  pathname: "/voting",
-                  state: { proposalId: claim[0].toNumber() },
-                }}
-              >
-                {" "}
-                Open{" "}
+              <Link cursor="pointer" to={`/claim/${claim[0].toNumber()}`}>
+                Open
               </Link>
             </HStack>
             <Heading fontSize="20px" textColor="whatsapp.500">
-              {claim.claimTitle}
+              {claim[1]}
             </Heading>
             <Text>{claim.claimSummary}</Text>
             <Text fontWeight="600">{claim.startTime}</Text>
