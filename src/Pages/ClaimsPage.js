@@ -33,6 +33,8 @@ function ClaimsPage() {
     openProposalsArray,
     acceptedProposalsArray,
     rejectedProposalsArray,
+    daoMemberCount,
+    setDaoMemberCount,
   } = web3Context;
 
   useEffect(() => {
@@ -41,8 +43,8 @@ function ClaimsPage() {
       if (textileClient) {
         let openClaims = await queryThread(
           textileClient,
-          "bafkyaidn2wzfyela7zyi5w63hudaf4sx67duwjdbhxkhgwo3abiozoq",
-          "claimData",
+          "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q",
+          "claimsData",
           {}
         );
         console.log(openClaims);
@@ -70,11 +72,7 @@ function ClaimsPage() {
       <Tabs variant="soft-rounded" colorScheme="whatsapp">
         <TabList justifyContent="space-between">
           <HStack>
-            <Tab
-              onClick={() => {
-                console.log(allProposalsArray);
-              }}
-            >
+            <Tab>
               Open Claims <GreenTag>{openProposalsArray.length}</GreenTag>
             </Tab>
             <Tab variant="solid">
@@ -109,6 +107,7 @@ function ClaimsPage() {
       </Tabs>
       <Stats
         claims={acceptedProposalsArray.length + rejectedProposalsArray.length}
+        daoMemberCount={daoMemberCount}
       />
     </Grid>
   );

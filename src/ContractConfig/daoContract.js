@@ -1,5 +1,5 @@
 export const DAO_CONTRACT_ADDRESS =
-  "0x011E0Ef6518496a1AA1E38edc84a1C5C7Df32520";
+  "0x76176Bdcf8bEe2654b89406fA726B96a3929f9ae";
 
 export const DAO_CONTRACT_ABI = [
   {
@@ -392,6 +392,20 @@ export const DAO_CONTRACT_ABI = [
       {
         name: "",
         type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "daoMemberCount",
+    outputs: [
+      {
+        name: "",
+        type: "int256",
       },
     ],
     payable: false,

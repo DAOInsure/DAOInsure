@@ -46,22 +46,27 @@ function BecomeMember() {
       ],
     });
 
-    await sf.host.batchCall([
-      202, // callAppAction to participate
-      SUPERAPP_CONTRACT_ADDRESS,
-      contract.setCoordinates(-9, -9),
-    ]);
+    function createPlayBatchCall(upgradeAmount = 0) {
+      return [
+        [
+          202, // upgrade 100 daix to play the game
+          "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+          contract.interface.encodeFunctionData(["int256", "int256"], [-9, 9]),
+        ],
+        [
+          2, // approve the ticket fee
+          {
+            token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f", // Super Tokens only
+            amount: "1000000000000000000",
+            sender: "0x4108424e30dfCe6E9cA41e707C2c64FA5704A01A",
+            recipient: SUPERAPP_CONTRACT_ADDRESS,
+          },
+        ],
+      ];
+    }
 
-    // const user = sf.user({
-    //   address: walletAddress[0],
-    //   token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
-    // });
-    // await user.flow({
-    //   recipient: "0x077A5ED230633EEAC0B0303Cf9B6C9074E99AB94",
-    //   flowRate: "3858024691358", // 10 DAIx per month
-    // });
-    // const details = await user.details();
-    // console.log(details);
+    // Call the host with the batch call parameters
+    await sf.host.batchCall(createPlayBatchCall(100));
   };
 
   return (

@@ -28,6 +28,7 @@ export function Web3ContextProvider({ children }) {
   const [openProposalsArray, setOpenProposalsArray] = useState([]);
   const [acceptedProposalsArray, setAcceptedProposalsArray] = useState([]);
   const [rejectedProposalsArray, setRejectedProposalsArray] = useState([]);
+  const [daoMemberCount, setDaoMemberCount] = useState(0);
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -178,6 +179,7 @@ export function Web3ContextProvider({ children }) {
       );
       let proposalsNum = await contract.proposalIdNumber();
       sortProposals(contract, proposalsNum.toNumber());
+      getDaoMemberCount();
     }
   };
 
@@ -201,6 +203,18 @@ export function Web3ContextProvider({ children }) {
           break;
       }
     }
+  };
+
+  const getDaoMemberCount = async () => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      provider
+    );
+
+    let count = await contract.daoMemberCount();
+
+    setDaoMemberCount(count.toNumber());
   };
 
   const checkIfMemberExists = async (provider) => {
@@ -255,6 +269,7 @@ export function Web3ContextProvider({ children }) {
         rejectedProposalsArray,
         openProposalsArray,
         votedProposalsArray,
+        daoMemberCount,
       }}
     >
       {children}

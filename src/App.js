@@ -11,6 +11,7 @@ import CustomRoute from "./utils/CustomRoute";
 import { useState, useEffect } from "react";
 import React from "react";
 import BecomeMember from "./Pages/BecomeMember";
+import ActivityPage from "./Pages/ActivityPage";
 
 function App() {
   const [isMember, setIsMember] = useState(false);
@@ -35,6 +36,9 @@ function App() {
                 <CustomRoute isMember={isMember} exact path="/makeclaim">
                   <MakeClaim />
                 </CustomRoute>{" "}
+                <CustomRoute isMember={isMember} exact path="/activity">
+                  <ActivityPage />
+                </CustomRoute>
               </div>
             ) : (
               <Route>
@@ -47,7 +51,7 @@ function App() {
             <CustomRoute isMember={isMember} exact path="/">
               <ClaimsPage />
             </CustomRoute>
-            <CustomRoute isMember={isMember} exact path="/voting">
+            <CustomRoute isMember={isMember} exact path="/claim/:id">
               <VotingPage />
             </CustomRoute>
             <CustomRoute isMember={isMember} exact path="/profile">
