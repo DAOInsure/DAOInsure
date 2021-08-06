@@ -45,7 +45,10 @@ function ClaimsList({ claims }) {
                     borderColor="whatsapp.500"
                     padding="2px"
                   >
-                    <Avatar size="sm" icon={<Jazzicon diameter="32" address={claim[1]} />} />
+                    <Avatar
+                      size="sm"
+                      icon={<Jazzicon diameter="32" address={claim[1]} />}
+                    />
                   </Box>
                   <Text>{claim[1]}</Text>
                   <Tag colorScheme="whatsapp" fontWeight="600">
@@ -69,9 +72,8 @@ function ClaimsList({ claims }) {
               >
                 Open
               </Tag> */}
-
             </HStack>
-            <Link cursor="pointer" to={`/claim/${claim[0].toNumber()}`}>
+            <Link cursor="pointer" to={`/voting/${claim[0].toNumber()}`}>
               <Heading fontSize="20px" textColor="whatsapp.500">
                 {claim[2]}
               </Heading>

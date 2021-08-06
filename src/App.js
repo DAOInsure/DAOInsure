@@ -27,7 +27,7 @@ function App() {
                 <CustomRoute isMember={isMember} exact path="/">
                   <ClaimsPage />
                 </CustomRoute>
-                <CustomRoute isMember={isMember} exact path="/voting">
+                <CustomRoute isMember={isMember} exact path="/voting/:id">
                   <VotingPage />
                 </CustomRoute>
                 <CustomRoute isMember={isMember} exact path="/profile">

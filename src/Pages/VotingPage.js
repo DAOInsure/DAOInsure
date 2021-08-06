@@ -31,8 +31,11 @@ import { uploadToSlate } from "../utils/slate";
 import { addToThread, queryThread } from "../utils/textile";
 import { Client, ThreadID } from "@textile/hub";
 import { useParams } from "react-router-dom";
+import fleekStorage from "@fleekhq/fleek-storage-js";
+import { Web3Context } from "../utils/Web3Context";
 
 function RadioCard(props) {
+  console.log(props);
   const { getInputProps, getCheckboxProps } = useRadio(props);
   const input = getInputProps();
   const checkbox = getCheckboxProps();
@@ -64,20 +67,46 @@ function RadioCard(props) {
 
 function VotingPage(props) {
   const { textileClient } = useContext(AppContext);
+  const { allProposalsArray, fetchAllProposals } = useContext(Web3Context);
+
   const [currentImage, setCurrentImage] = useState(
     "https://wallpaperaccess.com/full/30100.jpg"
   );
+  const [proposalData, setProposalData] = useState();
   const [sendImage, setSendImage] = useState();
   const [message, setMessage] = useState();
   const [messages, setMessages] = useState([]);
   const { id } = useParams();
   const [claim, setClaim] = useState();
   const [loadingClaim, setLoadingClaim] = useState(true);
+  const [claimTitle, setClaimTitle] = useState("");
+  const [claimSummary, setClaimSummary] = useState("");
+  const [claimAmount, setClaimAmount] = useState(0);
+
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
     defaultValue: "no",
     onChange: console.log,
   });
+
+  useEffect(() => {
+    async function init() {
+      const proposalId = allProposalsArray[id][9];
+
+      const myFile = await fleekStorage.getFileFromHash({
+        hash: proposalId,
+      });
+
+      setClaim(myFile);
+      // setClaimTitle(myFile.claimTitle);
+      // setClaimTitle(myFile.claimSummary);
+      // setClaimAmount(myFile.claimAmount);
+
+      console.log(myFile);
+      setLoadingClaim(false);
+    }
+    init();
+  }, [textileClient]);
 
   useEffect(() => {
     async function init() {
@@ -216,7 +245,13 @@ function VotingPage(props) {
           <>
             <HStack width="100%" justifyContent="space-between">
               <Heading fontSize="24px">{claim.claimTitle}</Heading>
-              <Tag>Open</Tag>
+              <Tag>
+                {allProposalsArray[id].voting ? (
+                  <span> Open </span>
+                ) : (
+                  <span> Closed </span>
+                )}
+              </Tag>
             </HStack>
             {claim.images.length == 0 ? null : (
               <>
@@ -224,13 +259,14 @@ function VotingPage(props) {
                   <Image borderRadius="10px" src={currentImage} />
                 </Box>
                 <HStack>
-                  {claim.images.map((image) => {
+                  {claim.images.map((image, index) => {
                     return (
                       <Image
                         onClick={handleImage}
                         borderRadius="10px"
                         height="70px"
                         src={image.url}
+                        key={index}
                       />
                     );
                   })}
@@ -291,7 +327,7 @@ function VotingPage(props) {
                 {messages.map((message) => {
                   return (
                     <HStack
-                      key={message.image}
+                      // key={message.image}
                       key={message._id}
                       alignItems="flex-end"
                     >
@@ -397,6 +433,9 @@ function VotingPage(props) {
           author={claim.author}
           startDate={claim.startTime}
           dateOfIncident={claim.dateOfIncident}
+          ipfsHash={allProposalsArray[id].ipfsHash}
+          yesVotes={allProposalsArray[id].yesVotes}
+          noVotes={allProposalsArray[id].noVotes}
         />
       )}
     </Grid>

@@ -28,15 +28,6 @@ function BecomeMember() {
       SUPERAPP_CONTRACT_ABI,
       signer
     );
-
-    console.log(contract);
-
-    const sf = new SuperfluidSDK.Framework({
-      ethers: provider,
-    });
-
-    await sf.initialize();
-
     const walletAddress = await window.ethereum.request({
       method: "eth_requestAccounts",
       params: [
@@ -46,20 +37,27 @@ function BecomeMember() {
       ],
     });
 
+    console.log(contract);
+
+    const sf = new SuperfluidSDK.Framework({
+      ethers: provider,
+    });
+
+    await sf.initialize();
+
     function createPlayBatchCall(upgradeAmount = 0) {
       return [
         [
           202, // upgrade 100 daix to play the game
           "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
-          contract.interface.encodeFunctionData(["int256", "int256"], [-9, 9]),
+          contract.interface.encodeFunctionData("setCoordinates", [-9, 9]),
         ],
         [
-          2, // approve the ticket fee
+          1, // approve the ticket fee
           {
             token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f", // Super Tokens only
             amount: "1000000000000000000",
-            sender: "0x4108424e30dfCe6E9cA41e707C2c64FA5704A01A",
-            recipient: SUPERAPP_CONTRACT_ADDRESS,
+            spender: SUPERAPP_CONTRACT_ADDRESS,
           },
         ],
       ];
