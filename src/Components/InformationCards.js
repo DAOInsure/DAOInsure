@@ -14,7 +14,7 @@ function InformationCards({ author, loadingClaim, dateOfIncident, startTime }) {
 
     useEffect(() => {
         async function init() {
-            let response = await axios.get("https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1627632899");
+            let response = await axios.get("https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1628319601");
             setOpenWeatherStats(response.data.hourly);
         }
         init();

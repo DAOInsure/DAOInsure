@@ -1,9 +1,11 @@
-import { Heading, HStack, Button, Spacer, Image } from "@chakra-ui/react";
+import { Heading, HStack, Button, Spacer, Image, Modal, ModalOverlay, ModalCloseButton, ModalBody, useDisclosure, ModalContent, ModalHeader } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Web3Context } from "../utils/Web3Context";
 
+
 function Header(props) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const web3Context = useContext(Web3Context);
   const {
     connectWallet,
@@ -11,16 +13,21 @@ function Header(props) {
     provider,
     signer,
     checkIfMemberExists,
+    correctNetwork
   } = web3Context;
 
   function connect() {
-    connectWallet().then((data) => {
-      console.log("header1,", data);
-      checkIfMemberExists(data).then((value) => {
-        if (value === true) {
-          props.setIsMember(true);
-        }
-      });
+    connectWallet().then(async (data) => {
+      console.log(data.provider.networkVersion);
+      if(data.provider.networkVersion == "80001") {
+        checkIfMemberExists(data).then((value) => {
+          if (value === true) {
+            props.setIsMember(true);
+          }
+        });
+      } else {
+        onOpen();
+      }
     });
   }
 
@@ -34,6 +41,17 @@ function Header(props) {
       px="250px"
       py={3}
     >
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
+        <ModalOverlay  />
+        <ModalContent>
+          <ModalHeader>
+            Invalid Network
+          </ModalHeader>
+          <ModalBody>
+            Please connect to Mumbai Testnet.
+          </ModalBody>
+        </ModalContent>
+      </Modal>
       <Link to="/">
         <Image height="35px" src="../assets/DAOInsure.png" />
       </Link>
