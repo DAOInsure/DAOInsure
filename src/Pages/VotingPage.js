@@ -109,7 +109,8 @@ function VotingPage(props) {
     vote: 0,
   });
   const { id } = useParams();
-  const { allProposalsArray, fetchAllProposals } = useContext(Web3Context);
+  const { allProposalsArray, fetchAllProposals, voteOnProposal } =
+    useContext(Web3Context);
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
@@ -349,7 +350,7 @@ function VotingPage(props) {
                 py={2}
                 borderColor="whatsapp.500"
                 colorScheme="whatsapp"
-                onClick={() => console.log(state.vote)}
+                onClick={() => voteOnProposal(id, state.vote)}
               >
                 Vote
               </Box>

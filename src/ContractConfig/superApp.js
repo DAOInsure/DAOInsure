@@ -1,5 +1,5 @@
 export const SUPERAPP_CONTRACT_ADDRESS =
-  "0x2431be8683E8e8a660a01467BB7Ddb984AAFF1Eb";
+  "0xBac144e20fC182cfD9DF6f39eA137590cA9D53E4";
 
 export const SUPERAPP_CONTRACT_ABI = [
   {
@@ -36,14 +36,14 @@ export const SUPERAPP_CONTRACT_ABI = [
         type: "address",
       },
       {
-        internalType: "int256",
+        internalType: "string",
         name: "_lat",
-        type: "int256",
+        type: "string",
       },
       {
-        internalType: "int256",
+        internalType: "string",
         name: "_long",
-        type: "int256",
+        type: "string",
       },
     ],
     name: "addMemberToDao",
@@ -355,9 +355,14 @@ export const SUPERAPP_CONTRACT_ABI = [
   {
     inputs: [
       {
-        internalType: "bytes",
-        name: "ctx",
-        type: "bytes",
+        internalType: "string",
+        name: "lat",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "long",
+        type: "string",
       },
     ],
     name: "setCoordinates",

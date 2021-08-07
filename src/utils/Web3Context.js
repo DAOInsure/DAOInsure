@@ -46,7 +46,7 @@ export function Web3ContextProvider({ children }) {
 
     provider.on("chainChanged", (chainId) => {
       console.log(chainId);
-    })
+    });
   };
 
   useEffect(() => {
@@ -67,7 +67,8 @@ export function Web3ContextProvider({ children }) {
         package: Portis,
         options: {
           id: "e6e65744-ec7a-4360-a174-d88df93094cc",
-          nodeUrl: "https://polygon-mumbai.g.alchemy.com/v2/nRkhfCmbOhkclY2_zRsEGCRFRLY7W2e3",
+          nodeUrl:
+            "https://polygon-mumbai.g.alchemy.com/v2/nRkhfCmbOhkclY2_zRsEGCRFRLY7W2e3",
           chainId: 80001,
           network: "maticMumbai",
         },
@@ -95,7 +96,7 @@ export function Web3ContextProvider({ children }) {
         modalProvider = await web3Modal.connect();
       }
 
-      if(modalProvider.chainId == "0x13881") {
+      if (modalProvider.chainId == "0x13881") {
         setCorrectNetwork(true);
       } else {
         setCorrectNetwork(false);
@@ -246,7 +247,7 @@ export function Web3ContextProvider({ children }) {
     return decimalBalance;
   };
 
-  const createProposal = async (title, hash) => {
+  const createProposal = async (title, time, hash) => {
     console.log(title, hash);
     let contract = new ethers.Contract(
       DAO_CONTRACT_ADDRESS,
@@ -254,9 +255,9 @@ export function Web3ContextProvider({ children }) {
       signer
     );
 
-    let proposal = await contract.createProposal(title, hash);
+    let proposal = await contract.createProposal(title, time, hash);
     const receipt = await proposal.wait();
-    console.log(receipt);
+    // console.log(receipt);
   };
 
   const getClaimableAmount = async () => {
@@ -269,6 +270,18 @@ export function Web3ContextProvider({ children }) {
     let claim = await contract.getClaimAmount(signerAddress);
     // console.log("test", ethers.utils.formatEther(claim));
     setClaimableAmount(ethers.utils.formatEther(claim));
+  };
+
+  const voteOnProposal = async (proposalId, vote) => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let proposalVote = await contract.voteOnProposal(proposalId, vote);
+    const receipt = await proposalVote.wait();
+    console.log(receipt);
   };
 
   return (
@@ -297,6 +310,7 @@ export function Web3ContextProvider({ children }) {
         createProposal,
         getClaimableAmount,
         claimableAmount,
+        voteOnProposal,
       }}
     >
       {children}

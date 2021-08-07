@@ -33,13 +33,15 @@ function InformationCards({
 
   const [openWeatherStats, setOpenWeatherStats] = useState();
 
-    useEffect(() => {
-        async function init() {
-            let response = await axios.get("https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1628319601");
-            setOpenWeatherStats(response.data.hourly);
-        }
-        init();
-    }, []);
+  useEffect(() => {
+    async function init() {
+      let response = await axios.get(
+        "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1628319601"
+      );
+      setOpenWeatherStats(response.data.hourly);
+    }
+    init();
+  }, []);
 
   return (
     <VStack spacing={5}>
@@ -128,7 +130,10 @@ function InformationCards({
               <Skeleton>vote percent</Skeleton>
             ) : (
               <Text fontWeight="600">
-                {(yesVotes / (yesVotes + noVotes)) * 100}%
+                {(yesVotes / (yesVotes + noVotes)) * 100
+                  ? (yesVotes / (yesVotes + noVotes)) * 100
+                  : "0"}
+                %
               </Text>
             )}
           </HStack>
@@ -148,7 +153,10 @@ function InformationCards({
               <Skeleton>vote percent</Skeleton>
             ) : (
               <Text fontWeight="600">
-                {(noVotes / (yesVotes + noVotes)) * 100}%
+                {(noVotes / (yesVotes + noVotes)) * 100
+                  ? (noVotes / (yesVotes + noVotes)) * 100
+                  : "0"}
+                %
               </Text>
             )}
           </HStack>
