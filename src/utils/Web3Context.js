@@ -4,10 +4,12 @@ import Web3Modal from "web3modal";
 import Portis from "@portis/web3";
 import { ethers } from "ethers";
 import { useState, useEffect } from "react";
+
 import {
   DAO_CONTRACT_ABI,
   DAO_CONTRACT_ADDRESS,
 } from "../ContractConfig/daoContract";
+
 import {
   SUPERTOKEN_CONTRACT_ADDRESS,
   SUPERTOKEN_CONTRACT_ABI,
@@ -29,6 +31,8 @@ export function Web3ContextProvider({ children }) {
   const [acceptedProposalsArray, setAcceptedProposalsArray] = useState([]);
   const [rejectedProposalsArray, setRejectedProposalsArray] = useState([]);
   const [daoMemberCount, setDaoMemberCount] = useState(0);
+  const [correctNetwork, setCorrectNetwork] = useState();
+  const [claimableAmount, setClaimableAmount] = useState(0);
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -39,6 +43,10 @@ export function Web3ContextProvider({ children }) {
     );
     setInfuraRPC(tp);
     setSigner(signer);
+
+    provider.on("chainChanged", (chainId) => {
+      console.log(chainId);
+    })
   };
 
   useEffect(() => {
@@ -59,11 +67,8 @@ export function Web3ContextProvider({ children }) {
         package: Portis,
         options: {
           id: "e6e65744-ec7a-4360-a174-d88df93094cc",
-          // network: {
-          //   nodeUrl:
-          //     "https://polygon-mumbai.infura.io/v3/a466d43409994804b44149a1283d131f",
-          //   chainId: 80001,
-          // },
+          nodeUrl: "https://polygon-mumbai.g.alchemy.com/v2/nRkhfCmbOhkclY2_zRsEGCRFRLY7W2e3",
+          chainId: 80001,
           network: "maticMumbai",
         },
       },
@@ -71,7 +76,7 @@ export function Web3ContextProvider({ children }) {
 
     let w3m = new Web3Modal({
       providerOptions,
-      network: "rinkeby", // optional
+      network: "maticMumbai", // optional
     });
 
     setWeb3Modal(w3m);
@@ -90,12 +95,18 @@ export function Web3ContextProvider({ children }) {
         modalProvider = await web3Modal.connect();
       }
 
+      if(modalProvider.chainId == "0x13881") {
+        setCorrectNetwork(true);
+      } else {
+        setCorrectNetwork(false);
+      }
+
       if (modalProvider.on) {
         modalProvider.on("accountsChanged", (event, callback) => {
           window.location.reload();
         });
 
-        modalProvider.on("chainChanged", () => {
+        modalProvider.on("chainChanged", (chainId) => {
           window.location.reload();
         });
       }
@@ -116,19 +127,6 @@ export function Web3ContextProvider({ children }) {
     web3Modal?.clearCachedProvider();
     setProvider(undefined);
   }
-
-  const createProposals = async () => {
-    const signer = provider.getSigner();
-    let contract = new ethers.Contract(
-      "0xf4c8a63Dd1b56847a9ef26efa2Fcc9a4a36663Ee",
-      DAO_CONTRACT_ABI,
-      signer
-    );
-    console.log(contract, signer);
-    const tx = await contract.createProposal("hi");
-    const receipt = await tx.wait();
-    console.log(receipt);
-  };
 
   const fetchProposals = () => {
     if (proposalsArray.length == 0) {
@@ -186,7 +184,7 @@ export function Web3ContextProvider({ children }) {
   const sortProposals = async (contract, number) => {
     for (let i = 0; i < number; i++) {
       let proposal = await contract.proposalsMapping(i);
-      console.log(proposal);
+      // console.log(proposal);
       setAllProposalsArray((oldArray) => [...oldArray, proposal]);
 
       switch (proposal[6]) {
@@ -247,6 +245,31 @@ export function Web3ContextProvider({ children }) {
     return decimalBalance;
   };
 
+  const createProposal = async (title, hash) => {
+    console.log(title, hash);
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let proposal = await contract.createProposal(title, hash);
+    const receipt = await proposal.wait();
+    console.log(receipt);
+  };
+
+  const getClaimableAmount = async () => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let claim = await contract.getClaimAmount(signerAddress);
+    // console.log("test", ethers.utils.formatEther(claim));
+    setClaimableAmount(ethers.utils.formatEther(claim));
+  };
+
   return (
     <Web3Context.Provider
       value={{
@@ -257,7 +280,6 @@ export function Web3ContextProvider({ children }) {
         isPortisLoading,
         signerAddress,
         infuraRPC,
-        createProposals,
         checkIfMemberExists,
         fetchProposals,
         userDaoTokenBalance,
@@ -270,6 +292,10 @@ export function Web3ContextProvider({ children }) {
         openProposalsArray,
         votedProposalsArray,
         daoMemberCount,
+        correctNetwork,
+        createProposal,
+        getClaimableAmount,
+        claimableAmount,
       }}
     >
       {children}
