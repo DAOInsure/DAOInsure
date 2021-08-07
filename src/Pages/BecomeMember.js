@@ -10,6 +10,8 @@ import { Web3Context } from "../utils/Web3Context";
 import { useContext } from "react";
 import GreenTag from "../Components/GreenTag";
 import { ethers } from "ethers";
+import Web3 from "web3";
+
 import {
   SUPERAPP_CONTRACT_ADDRESS,
   SUPERAPP_CONTRACT_ABI,
@@ -21,6 +23,10 @@ const { Web3Provider } = require("@ethersproject/providers");
 function BecomeMember() {
   const { signerAddress, infuraRPC, provider, signer } =
     useContext(Web3Context);
+
+  const web3 = new Web3(provider);
+
+  console.log(web3);
 
   const joinDao = async () => {
     let contract = new ethers.Contract(
@@ -45,26 +51,59 @@ function BecomeMember() {
 
     await sf.initialize();
 
-    function createPlayBatchCall(upgradeAmount = 0) {
-      return [
-        [
-          202, // upgrade 100 daix to play the game
-          "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
-          contract.interface.encodeFunctionData("setCoordinates", [-9, 9]),
-        ],
-        [
-          1, // approve the ticket fee
-          {
-            token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f", // Super Tokens only
-            amount: "1000000000000000000",
-            spender: SUPERAPP_CONTRACT_ADDRESS,
-          },
-        ],
-      ];
-    }
+    await sf.cfa.createFlow({
+      superToken: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+      sender: walletAddress[0],
+      receiver: SUPERAPP_CONTRACT_ADDRESS,
+      flowRate: 3858024691358,
+      // userData: web3.eth.abi.encodeParameter("uint256", "12"),
+    });
 
-    // Call the host with the batch call parameters
-    await sf.host.batchCall(createPlayBatchCall(100));
+    // await sf.batchCall([
+    //   [
+    //     {
+    //       type: "ERC20_APPROVE",
+    //       data: {
+    //         token: 0x5d8b4c2554aeb7e86f387b4d6c00ac33499ed01f,
+    //         spender: SUPERAPP_CONTRACT_ADDRESS,
+    //         amount: "1000000000000000000",
+    //       },
+    //     },
+    //   ],
+    //   [
+
+    //       type: "CALL_APP_ACTION",
+    //       data: {
+    //         superApp: SUPERAPP_CONTRACT_ADDRESS,
+    //         callData: contract.interface.encodeFunctionData("setCoordinates", [
+    //           "-9",
+    //           "-9",
+    //         ]),
+    //       },
+
+    //   ],
+    // ]);
+
+    // function createPlayBatchCall(upgradeAmount = 0) {
+    //   return [
+    //     [
+    //       202, // upgrade 100 daix to play the game
+    //       "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+    //       contract.interface.encodeFunctionData("setCoordinates", [-9, 9]),
+    //     ],
+    //     [
+    //       1, // approve the ticket fee
+    //       {
+    //         token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f", // Super Tokens only
+    //         amount: "1000000000000000000",
+    //         spender: SUPERAPP_CONTRACT_ADDRESS,
+    //       },
+    //     ],
+    //   ];
+    // }
+
+    // // Call the host with the batch call parameters
+    // await sf.host.batchCall(createPlayBatchCall(100));
   };
 
   return (

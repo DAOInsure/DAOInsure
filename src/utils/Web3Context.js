@@ -102,6 +102,7 @@ export function Web3ContextProvider({ children }) {
       }
 
       const ethersProvider = new ethers.providers.Web3Provider(modalProvider);
+      console.log(ethersProvider.getSigner());
       setProvider(ethersProvider);
       setIsPortisLoading(false);
       return ethersProvider;

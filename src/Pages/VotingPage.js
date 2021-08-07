@@ -35,10 +35,11 @@ import fleekStorage from "@fleekhq/fleek-storage-js";
 import { Web3Context } from "../utils/Web3Context";
 
 function RadioCard(props) {
-  console.log(props);
+  // console.log(props);
   const { getInputProps, getCheckboxProps } = useRadio(props);
   const input = getInputProps();
   const checkbox = getCheckboxProps();
+  console.log(input);
 
   return (
     <Box width="100%" as="label">
@@ -306,6 +307,7 @@ function VotingPage(props) {
                 py={2}
                 borderColor="whatsapp.500"
                 colorScheme="whatsapp"
+                onClick={() => console.log()}
               >
                 Vote
               </Box>

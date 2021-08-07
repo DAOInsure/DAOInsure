@@ -1,5 +1,5 @@
 export const SUPERAPP_CONTRACT_ADDRESS =
-  "0x077A5ED230633EEAC0B0303Cf9B6C9074E99AB94";
+  "0x2431be8683E8e8a660a01467BB7Ddb984AAFF1Eb";
 
 export const SUPERAPP_CONTRACT_ABI = [
   {
@@ -355,14 +355,9 @@ export const SUPERAPP_CONTRACT_ABI = [
   {
     inputs: [
       {
-        internalType: "int256",
-        name: "lat",
-        type: "int256",
-      },
-      {
-        internalType: "int256",
-        name: "long",
-        type: "int256",
+        internalType: "bytes",
+        name: "ctx",
+        type: "bytes",
       },
     ],
     name: "setCoordinates",
