@@ -31,6 +31,8 @@ import { uploadToSlate } from "../utils/slate";
 import { addToThread, queryThread } from "../utils/textile";
 import { Client, ThreadID } from "@textile/hub";
 import { useParams } from "react-router-dom";
+import fleekStorage from "@fleekhq/fleek-storage-js";
+import { Web3Context } from "../utils/Web3Context";
 
 
 const ACTIONS = {
@@ -65,6 +67,7 @@ function stateReducer(state, action) {
 }
 
 function RadioCard(props) {
+  console.log(props);
   const { getInputProps, getCheckboxProps } = useRadio(props);
   const input = getInputProps();
   const checkbox = getCheckboxProps();
@@ -96,10 +99,9 @@ function RadioCard(props) {
 
 function VotingPage(props) {
   const { textileClient } = useContext(AppContext);
-
   const [ state, dispatch ] = useReducer(stateReducer, { currentImage: "", sendImage: "", message: "", messages: [], claim: "", loadingClaim: true, vote: 0 });
-  
   const { id } = useParams();
+  const { allProposalsArray, fetchAllProposals } = useContext(Web3Context);
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
@@ -109,24 +111,57 @@ function VotingPage(props) {
 
   useEffect(() => {
     async function init() {
-        
-        let claim = await textileClient.findByID(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), "claimsData", id);
-        console.log(claim);
-        dispatch({ type: ACTIONS.SET_CLAIM, payload: claim });
 
-        let messages = await queryThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "messagesData", { claimId: id });
-        console.log(messages); 
+      const proposalId = allProposalsArray[id][9];
 
-        dispatch({ type: ACTIONS.SET_MESSAGES, payload: messages })
+      const myFile = await fleekStorage.getFileFromHash({
+        hash: proposalId,
+      });
+      dispatch({ type: ACTIONS.SET_CLAIM, payload: myFile });
+      // setClaimTitle(myFile.claimTitle);
+      // setClaimTitle(myFile.claimSummary);
+      // setClaimAmount(myFile.claimAmount);
 
-        dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
-        console.log("listening");
-        let closer = await textileClient.listen(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), [{actionTypes: ['CREATE'], collectionName: "messagesData" }], (reply, error) => {
-            dispatch({ type: ACTIONS.SET_MESSAGES, payload: [...messages, reply.instance] });    
-        });
-        return function cleanup() {
-            closer();
-        }
+      console.log(myFile);
+      dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
+    }
+    init();
+  }, [textileClient]);
+
+  useEffect(() => {
+    async function init() {
+      // let claim = await textileClient.findByID(
+      //   ThreadID.fromString(
+      //     "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"
+      //   ),
+      //   "claimsData",
+      //   id
+      // );
+      // console.log(claim);
+      // setClaim(claim);
+
+      const proposalId = allProposalsArray[id][9];
+
+      const myFile = await fleekStorage.getFileFromHash({
+        hash: proposalId,
+      });
+      dispatch({ type: ACTIONS.SET_CLAIM, payload: myFile });
+
+      console.log(myFile);
+      dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
+
+      let messages = await queryThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "messagesData", { claimId: id });
+      console.log(messages); 
+
+      dispatch({ type: ACTIONS.SET_MESSAGES, payload: messages })
+
+      console.log("listening");
+      let closer = await textileClient.listen(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), [{actionTypes: ['CREATE'], collectionName: "messagesData" }], (reply, error) => {
+          dispatch({ type: ACTIONS.SET_MESSAGES, payload: [...messages, reply.instance] });    
+      });
+      return function cleanup() {
+          closer();
+      }
     }
     if(textileClient) {
         init();
@@ -215,76 +250,74 @@ function VotingPage(props) {
           {
               state.loadingClaim ?    
               <> 
-                  <HStack width="100%" justifyContent="space-between">
-                      <Skeleton isLoaded={!state.loadingClaim}>
-                          Loading Claim
-                      </Skeleton>
-                      <Skeleton isLoaded={!state.loadingClaim}>
-                          Claim Status
-                      </Skeleton>
-                  </HStack>
-                  
-                  <Skeleton width="100%">
-                      <Box height="300px" width="100%">Image</Box>
-                  </Skeleton>
+                <HStack width="100%" justifyContent="space-between">
+                    <Skeleton isLoaded={!state.loadingClaim}>
+                        Loading Claim
+                    </Skeleton>
+                    <Skeleton isLoaded={!state.loadingClaim}>
+                        Claim Status
+                    </Skeleton>
+                </HStack>
+              
+                <Skeleton width="100%">
+                    <Box height="300px" width="100%">Image</Box>
+                </Skeleton>
               </>
               :
               <>
-                  <HStack width="100%" justifyContent="space-between">
-                      <Heading fontSize="24px">{state.claim.claimTitle}</Heading>
-                      <Tag>Open</Tag>
-                  </HStack>
-                  {
-                      state.claim.images.length == 0 ?
-                      null
-                      :
-                      <>
-                          <Box mt="10px !important" boxShadow="lg" borderRadius="10px">
-                          <Image  borderRadius="10px" src={state.currentImage} />
-                          </Box>
-                          <HStack>
-                          {
-                              state.claim.images.map((image) => {
-                                  return (
-                                      <Image onClick={handleImage} borderRadius="10px" height="70px" src={image.url} />
-                                  );  
-                              })
-                          }
-                          {/* <Image onClick={handleImage} borderRadius="10px" height="70px" src="https://images.firstpost.com/wp-content/uploads/large_file_plugin/2020/02/1582263146_1.jpg" /> */}
-                          {/* <Image onClick={handleImage} borderRadius="10px" height="70px" src="https://www.insurancechat.co.za/wp-content/uploads/2021/01/Reen-Tweeling-area-770x445.jpeg" /> */}
-                          </HStack>
-                      </>
-                  }
-                  <Text>
-                      {state.claim.claimSummary}
-                  </Text>
+                <HStack width="100%" justifyContent="space-between">
+                    <Heading fontSize="24px">{state.claim.claimTitle}</Heading>
+                    <Tag>Open</Tag>
+                </HStack>
+                {
+                    state.claim.images.length == 0 ?
+                    null
+                    :
+                    <>
+                        <Box mt="10px !important" boxShadow="lg" borderRadius="10px">
+                        <Image  borderRadius="10px" src={state.currentImage} />
+                        </Box>
+                        <HStack>
+                        {
+                            state.claim.images.map((image) => {
+                                return (
+                                    <Image onClick={handleImage} borderRadius="10px" height="70px" src={image} />
+                                );  
+                            })
+                        }
+                        {/* <Image onClick={handleImage} borderRadius="10px" height="70px" src="https://images.firstpost.com/wp-content/uploads/large_file_plugin/2020/02/1582263146_1.jpg" /> */}
+                        {/* <Image onClick={handleImage} borderRadius="10px" height="70px" src="https://www.insurancechat.co.za/wp-content/uploads/2021/01/Reen-Tweeling-area-770x445.jpeg" /> */}
+                        </HStack>
+                    </>
+                }
+                <Text>
+                    {state.claim.claimSummary}
+                </Text>
               </>
           }
           
-          
-          
           <Card cardTitle="Cast Your Vote">
-              {
-                  state.loadingClaim ?
-                  <Spinner margin="auto" borderColor="whatsapp.500" />
-                  :
-                  <>
-                      <VStack width="100%" {...group}>
-                          {
-                              options.map((value) => {
-                                  const radio = getRadioProps({ value });
-                                  return (
-                                      <RadioCard key={value} {...radio}>
-                                          {value}
-                                      </RadioCard>
-                                  )
-                              })
-                          }
-                      </VStack>
-                      <Box _hover={{ boxShadow:"base", transform: "scale(1.01)" }} transition="all .3s" textColor="white" fontWeight="600" width="100%" backgroundColor="whatsapp.500" borderRadius="20px" textAlign="center" py={2} borderColor="whatsapp.500" colorScheme="whatsapp">Vote</Box>
-                  </>
-              }
-              </Card>
+          {
+              state.loadingClaim ?
+              <Spinner margin="auto" borderColor="whatsapp.500" />
+              :
+              <>
+                  <VStack width="100%" {...group}>
+                      {
+                          options.map((value) => {
+                              const radio = getRadioProps({ value });
+                              return (
+                                  <RadioCard key={value} {...radio}>
+                                      {value}
+                                  </RadioCard>
+                              )
+                          })
+                      }
+                  </VStack>
+                  <Box _hover={{ boxShadow:"base", transform: "scale(1.01)" }} transition="all .3s" textColor="white" fontWeight="600" width="100%" backgroundColor="whatsapp.500" borderRadius="20px" textAlign="center" py={2} borderColor="whatsapp.500" colorScheme="whatsapp">Vote</Box>
+              </>
+          }
+          </Card>
           <Card  cardTitle="Chat">
               {
                   state.loadingClaim ?
@@ -347,7 +380,14 @@ function VotingPage(props) {
           state.loadingClaim ?
           <InformationCards loadingClaim={state.loadingClaim} />
           :
-          <InformationCards author={state.claim.author} startDate={state.claim.startTime} dateOfIncident={state.claim.dateOfIncident}  />
+          <InformationCards 
+            author={state.claim.author} 
+            startDate={state.claim.startTime} 
+            dateOfIncident={state.claim.dateOfIncident}
+            ipfsHash={allProposalsArray[id].ipfsHash}
+            yesVotes={allProposalsArray[id].yesVotes}
+            noVotes={allProposalsArray[id].noVotes}
+          />
       }
     </Grid>
   );

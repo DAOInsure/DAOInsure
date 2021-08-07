@@ -5,6 +5,16 @@ import {
   UnorderedList,
   ListItem,
   Tag,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  useDisclosure,
+  ModalOverlay,
+  ModalCloseButton,
+  HStack,
+  Input
 } from "@chakra-ui/react";
 import { Web3Context } from "../utils/Web3Context";
 import { useContext } from "react";
@@ -14,13 +24,22 @@ import {
   SUPERAPP_CONTRACT_ADDRESS,
   SUPERAPP_CONTRACT_ABI,
 } from "../ContractConfig/superApp";
+import { useState } from "react";
 
 const SuperfluidSDK = require("@superfluid-finance/js-sdk");
 const { Web3Provider } = require("@ethersproject/providers");
 
 function BecomeMember() {
-  const { signerAddress, infuraRPC, provider, signer } =
-    useContext(Web3Context);
+  const { signerAddress, infuraRPC, provider, signer } = useContext(Web3Context);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [ latitude, setLatitude ] = useState();
+  const [ longitude, setLongitude ] = useState();
+
+
+  const handleChange = (e, setter) => {
+    setter(e.target.value);
+  }
 
   const joinDao = async () => {
     let contract = new ethers.Contract(
@@ -28,15 +47,6 @@ function BecomeMember() {
       SUPERAPP_CONTRACT_ABI,
       signer
     );
-
-    console.log(contract);
-
-    const sf = new SuperfluidSDK.Framework({
-      ethers: provider,
-    });
-
-    await sf.initialize();
-
     const walletAddress = await window.ethereum.request({
       method: "eth_requestAccounts",
       params: [
@@ -46,20 +56,28 @@ function BecomeMember() {
       ],
     });
 
+    console.log(contract);
+
+    const sf = new SuperfluidSDK.Framework({
+      ethers: provider,
+    });
+
+    await sf.initialize();
+
     function createPlayBatchCall(upgradeAmount = 0) {
       return [
         [
           202, // upgrade 100 daix to play the game
           "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
-          contract.interface.encodeFunctionData(["int256", "int256"], [-9, 9]),
+          // adding latitude and longitude to the encoded data.
+          contract.interface.encodeFunctionData("setCoordinates", [parseInt(latitude), parseInt(longitude)]),
         ],
         [
-          2, // approve the ticket fee
+          1, // approve the ticket fee
           {
             token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f", // Super Tokens only
             amount: "1000000000000000000",
-            sender: "0x4108424e30dfCe6E9cA41e707C2c64FA5704A01A",
-            recipient: SUPERAPP_CONTRACT_ADDRESS,
+            spender: SUPERAPP_CONTRACT_ADDRESS,
           },
         ],
       ];
@@ -71,6 +89,22 @@ function BecomeMember() {
 
   return (
     <VStack spacing={5} mt="20px">
+      <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}> 
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Enter the following Details</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <HStack>
+              <Input onChange={(e) => handleChange(e, setLatitude)} placeholder="Latitude" />
+              <Input onChange={(e) => handleChange(e, setLongitude)} placeholder="Longitude" />
+            </HStack>
+          </ModalBody>
+          <ModalFooter>
+            <Button onClick={joinDao} colorScheme="whatsapp">Join DAO (10 DAIx / Month)</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Heading fontSize="32px">Become A Member</Heading>
       <Heading fontSize="24px">How it works?</Heading>
       <UnorderedList>
@@ -89,7 +123,7 @@ function BecomeMember() {
       </UnorderedList>
       <Heading fontSize="24px">Become A Member just 10 DAIx / Month</Heading>
       {signerAddress ? (
-        <Button colorScheme="whatsapp" onClick={joinDao}>
+        <Button colorScheme="whatsapp" onClick={onOpen}>
           Join the DAO
         </Button>
       ) : (

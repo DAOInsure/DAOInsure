@@ -59,15 +59,15 @@ function Header(props) {
       <Link to="/profile">
         <Button colorScheme="whatsapp">Profile</Button>
       </Link>
-      <Link to="/voting">
-        <Button colorScheme="whatsapp" variant="solid">
+      {/* <Link to="/voting">
+      <Button colorScheme="whatsapp" variant="solid">
           Voting
         </Button>
-      </Link>
+      </Link> */}
 
-      {(signerAddress !== "" && signerAddress !== undefined) ? (
+      {signerAddress !== "" && signerAddress !== undefined ? (
         <Button colorScheme="whatsapp" variant="solid">
-          {`${signerAddress.substr(0,6)}...${signerAddress.substr(-6)}`}
+          {`${signerAddress.substr(0, 6)}...${signerAddress.substr(-6)}`}
         </Button>
       ) : (
         <Button onClick={connect} colorScheme="whatsapp" variant="solid">

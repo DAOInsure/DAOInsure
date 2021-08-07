@@ -32,6 +32,7 @@ export function Web3ContextProvider({ children }) {
   const [rejectedProposalsArray, setRejectedProposalsArray] = useState([]);
   const [daoMemberCount, setDaoMemberCount] = useState(0);
   const [correctNetwork, setCorrectNetwork] = useState();
+  const [claimableAmount, setClaimableAmount] = useState(0);
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -127,19 +128,6 @@ export function Web3ContextProvider({ children }) {
     setProvider(undefined);
   }
 
-  const createProposals = async () => {
-    const signer = provider.getSigner();
-    let contract = new ethers.Contract(
-      "0xf4c8a63Dd1b56847a9ef26efa2Fcc9a4a36663Ee",
-      DAO_CONTRACT_ABI,
-      signer
-    );
-    console.log(contract, signer);
-    const tx = await contract.createProposal("hi");
-    const receipt = await tx.wait();
-    console.log(receipt);
-  };
-
   const fetchProposals = () => {
     if (proposalsArray.length == 0) {
       let contract = new ethers.Contract(
@@ -196,7 +184,7 @@ export function Web3ContextProvider({ children }) {
   const sortProposals = async (contract, number) => {
     for (let i = 0; i < number; i++) {
       let proposal = await contract.proposalsMapping(i);
-      console.log(proposal);
+      // console.log(proposal);
       setAllProposalsArray((oldArray) => [...oldArray, proposal]);
 
       switch (proposal[6]) {
@@ -257,6 +245,31 @@ export function Web3ContextProvider({ children }) {
     return decimalBalance;
   };
 
+  const createProposal = async (title, hash) => {
+    console.log(title, hash);
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let proposal = await contract.createProposal(title, hash);
+    const receipt = await proposal.wait();
+    console.log(receipt);
+  };
+
+  const getClaimableAmount = async () => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let claim = await contract.getClaimAmount(signerAddress);
+    // console.log("test", ethers.utils.formatEther(claim));
+    setClaimableAmount(ethers.utils.formatEther(claim));
+  };
+
   return (
     <Web3Context.Provider
       value={{
@@ -267,7 +280,6 @@ export function Web3ContextProvider({ children }) {
         isPortisLoading,
         signerAddress,
         infuraRPC,
-        createProposals,
         checkIfMemberExists,
         fetchProposals,
         userDaoTokenBalance,
@@ -280,7 +292,10 @@ export function Web3ContextProvider({ children }) {
         openProposalsArray,
         votedProposalsArray,
         daoMemberCount,
-        correctNetwork
+        correctNetwork,
+        createProposal,
+        getClaimableAmount,
+        claimableAmount,
       }}
     >
       {children}
