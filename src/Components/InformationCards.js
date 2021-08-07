@@ -29,17 +29,17 @@ function InformationCards({
 }) {
   const voters = [""];
 
+  console.log(yesVotes);
+
   const [openWeatherStats, setOpenWeatherStats] = useState();
 
-  useEffect(() => {
-    async function init() {
-      let response = await axios.get(
-        "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1627632899"
-      );
-      setOpenWeatherStats(response.data.hourly);
-    }
-    init();
-  }, []);
+    useEffect(() => {
+        async function init() {
+            let response = await axios.get("https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1628319601");
+            setOpenWeatherStats(response.data.hourly);
+        }
+        init();
+    }, []);
 
   return (
     <VStack spacing={5}>
@@ -226,7 +226,8 @@ function InformationCards({
                     </HStack>
                     <Tag colorScheme="whatsapp">Yes</Tag>
                     <Text>300 DIx</Text>
-                    <FaExternalLinkAlt size="10px" />
+                    {/* the code for the link of the vote transaction can be written below. */}
+                    {/* <FaExternalLinkAlt size="10px" />  */}
                   </HStack>
                 );
               })}
