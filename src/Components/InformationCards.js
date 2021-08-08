@@ -22,7 +22,7 @@ function InformationCards({
   author,
   loadingClaim,
   dateOfIncident,
-  startTime,
+  // startTime,
   ipfsHash,
   yesVotes,
   noVotes,
@@ -33,13 +33,15 @@ function InformationCards({
 
   const [openWeatherStats, setOpenWeatherStats] = useState();
 
-    useEffect(() => {
-        async function init() {
-            let response = await axios.get("https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1628319601");
-            setOpenWeatherStats(response.data.hourly);
-        }
-        init();
-    }, []);
+  useEffect(() => {
+    async function init() {
+      let response = await axios.get(
+        "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=32.21&lon=76.32&exclude=minutely,hourly&appid=162ac7d2a16586444f5b2e968f020e4c&dt=1628319601"
+      );
+      setOpenWeatherStats(response.data.hourly);
+    }
+    init();
+  }, []);
 
   return (
     <VStack spacing={5}>
@@ -71,7 +73,7 @@ function InformationCards({
             </HStack>
           )}
         </HStack>
-        <HStack width="100%">
+        {/* <HStack width="100%">
           <Text fontWeight="600">Start Date</Text>
           <Spacer />
           {loadingClaim ? (
@@ -79,7 +81,7 @@ function InformationCards({
           ) : (
             <Text>{new Date(Date.now()).toDateString()}</Text>
           )}
-        </HStack>
+        </HStack> */}
         <HStack width="100%">
           <Text fontWeight="600">End Date</Text>
           <Spacer />
@@ -97,7 +99,7 @@ function InformationCards({
       </Card>
       <Card cardTitle="Time">
         <VStack width="100%">
-          <HStack width="100%">
+          {/* <HStack width="100%">
             <Text fontWeight="600">Timezone</Text>
             <Spacer />
             {loadingClaim ? (
@@ -105,7 +107,7 @@ function InformationCards({
             ) : (
               <Text>Asia/Kolkata</Text>
             )}
-          </HStack>
+          </HStack> */}
           <HStack width="100%">
             <Text fontWeight="600">Date Of Incident</Text>
             <Spacer />
@@ -128,7 +130,10 @@ function InformationCards({
               <Skeleton>vote percent</Skeleton>
             ) : (
               <Text fontWeight="600">
-                {(yesVotes / (yesVotes + noVotes)) * 100}%
+                {(yesVotes / (yesVotes + noVotes)) * 100
+                  ? (yesVotes / (yesVotes + noVotes)) * 100
+                  : "0"}
+                %
               </Text>
             )}
           </HStack>
@@ -148,7 +153,10 @@ function InformationCards({
               <Skeleton>vote percent</Skeleton>
             ) : (
               <Text fontWeight="600">
-                {(noVotes / (yesVotes + noVotes)) * 100}%
+                {(noVotes / (yesVotes + noVotes)) * 100
+                  ? (noVotes / (yesVotes + noVotes)) * 100
+                  : "0"}
+                %
               </Text>
             )}
           </HStack>
