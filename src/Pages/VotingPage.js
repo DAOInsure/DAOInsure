@@ -117,6 +117,8 @@ function VotingPage(props) {
     voteOnProposal,
     signerAddress,
     claimProposal,
+    fetchMemberInfo,
+    memberData,
   } = useContext(Web3Context);
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
@@ -194,6 +196,10 @@ function VotingPage(props) {
       init();
     }
   }, [textileClient]);
+
+  useEffect(() => {
+    fetchMemberInfo();
+  }, []);
 
   const options = ["Yes", "No"];
   const group = getRootProps();
@@ -504,6 +510,7 @@ function VotingPage(props) {
           yesVotes={allProposalsArray[id].yesVotes}
           noVotes={allProposalsArray[id].noVotes}
           rainData={allProposalsArray[id].rainData.toNumber()}
+          memberData={memberData}
         />
       )}
     </Grid>

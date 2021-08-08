@@ -33,6 +33,7 @@ export function Web3ContextProvider({ children }) {
   const [daoMemberCount, setDaoMemberCount] = useState(0);
   const [correctNetwork, setCorrectNetwork] = useState();
   const [claimableAmount, setClaimableAmount] = useState(0);
+  const [memberData, setMemberData] = useState();
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -305,6 +306,18 @@ export function Web3ContextProvider({ children }) {
     }
   };
 
+  const fetchMemberInfo = async () => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let member = await contract.daoMemberMapping(signerAddress);
+    console.log(member);
+    setMemberData(member);
+  };
+
   return (
     <Web3Context.Provider
       value={{
@@ -333,6 +346,8 @@ export function Web3ContextProvider({ children }) {
         claimableAmount,
         voteOnProposal,
         claimProposal,
+        fetchMemberInfo,
+        memberData,
       }}
     >
       {children}

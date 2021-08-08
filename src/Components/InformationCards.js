@@ -28,6 +28,7 @@ function InformationCards({
   yesVotes,
   noVotes,
   rainData,
+  memberData,
 }) {
   const voters = [""];
 
@@ -73,6 +74,25 @@ function InformationCards({
                 <FaExternalLinkAlt size="10px" />
               </a>
             </HStack>
+          )}
+        </HStack>
+        <HStack width="100%">
+          <Text fontWeight="600">Member location</Text>
+          <Spacer />
+          {loadingClaim ? (
+            <Skeleton isLoaded={!loadingClaim}>Author</Skeleton>
+          ) : (
+            <a
+              target="_blank"
+              href={
+                `https://www.google.co.in/maps/@` +
+                memberData.lat +
+                `,` +
+                memberData.long
+              }
+            >
+              Map
+            </a>
           )}
         </HStack>
         {/* <HStack width="100%">
