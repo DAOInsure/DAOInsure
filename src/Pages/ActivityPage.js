@@ -97,7 +97,7 @@ function ActivityPage() {
       setLoadingData(false);
     }
     init();
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (data != undefined) {
@@ -135,7 +135,7 @@ function ActivityPage() {
             <>
               {data.map((data, index) => {
                 return (
-                  <Tr key={index}>
+                  <Tr>
                     <Td>
                       <GreenTag>{data.id}</GreenTag>
                     </Td>
