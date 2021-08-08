@@ -112,20 +112,27 @@ function ActivityPage() {
                 </Thead>
                 <Tbody>
                     {
-                        data.map((data) => {
-                            return (
-                                <Tr>
-                                    <Td>
-                                        <GreenTag>
-                                            {data.id}
-                                        </GreenTag>
-                                    </Td>
-                                    <Td>
-                                        {data.value}
-                                    </Td>
-                                </Tr>
-                            );
-                        })
+                        loadingData ?
+                        <Spinner />
+                        :
+                        <>
+                        {
+                            data.map((data) => {
+                                return (
+                                    <Tr>
+                                        <Td>
+                                            <GreenTag>
+                                                {data.id}
+                                            </GreenTag>
+                                        </Td>
+                                        <Td>
+                                            {data.value}
+                                        </Td>
+                                    </Tr>
+                                );
+                            })
+                        }
+                        </>
                     }
                 </Tbody>
             </Table>
