@@ -1,33 +1,7 @@
 export const SUPERAPP_CONTRACT_ADDRESS =
-  "0x077A5ED230633EEAC0B0303Cf9B6C9074E99AB94";
+  "0x2E1341e3b639F5c462A147411f3D5455A9c5B161";
 
 export const SUPERAPP_CONTRACT_ABI = [
-  {
-    inputs: [
-      {
-        internalType: "contract ISuperfluid",
-        name: "host",
-        type: "address",
-      },
-      {
-        internalType: "contract IConstantFlowAgreementV1",
-        name: "cfa",
-        type: "address",
-      },
-      {
-        internalType: "contract ISuperToken",
-        name: "acceptedToken",
-        type: "address",
-      },
-      {
-        internalType: "contract ISuperToken",
-        name: "sodaToken",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
   {
     inputs: [
       {
@@ -36,14 +10,14 @@ export const SUPERAPP_CONTRACT_ABI = [
         type: "address",
       },
       {
-        internalType: "int256",
+        internalType: "string",
         name: "_lat",
-        type: "int256",
+        type: "string",
       },
       {
-        internalType: "int256",
+        internalType: "string",
         name: "_long",
-        type: "int256",
+        type: "string",
       },
     ],
     name: "addMemberToDao",
@@ -182,6 +156,132 @@ export const SUPERAPP_CONTRACT_ABI = [
     ],
     stateMutability: "nonpayable",
     type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "removeMemberFromDao",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "lat",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "long",
+        type: "string",
+      },
+    ],
+    name: "setCoordinates",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_address",
+        type: "address",
+      },
+    ],
+    name: "setDaoContractAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
+    name: "tokensReceived",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "withdrawAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "contract ISuperfluid",
+        name: "host",
+        type: "address",
+      },
+      {
+        internalType: "contract IConstantFlowAgreementV1",
+        name: "cfa",
+        type: "address",
+      },
+      {
+        internalType: "contract ISuperToken",
+        name: "acceptedToken",
+        type: "address",
+      },
+      {
+        internalType: "contract ISuperToken",
+        name: "sodaToken",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
   {
     inputs: [
@@ -337,106 +437,6 @@ export const SUPERAPP_CONTRACT_ABI = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_address",
-        type: "address",
-      },
-    ],
-    name: "removeMemberFromDao",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "int256",
-        name: "lat",
-        type: "int256",
-      },
-      {
-        internalType: "int256",
-        name: "long",
-        type: "int256",
-      },
-    ],
-    name: "setCoordinates",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_address",
-        type: "address",
-      },
-    ],
-    name: "setDaoContractAddress",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes",
-      },
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes",
-      },
-    ],
-    name: "tokensReceived",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_recipient",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdrawAmount",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];

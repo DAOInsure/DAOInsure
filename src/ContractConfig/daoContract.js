@@ -1,126 +1,29 @@
 export const DAO_CONTRACT_ADDRESS =
-  "0xA354c864B649E5FBA479F682137E1371e3853D6C";
+  "0x349AdD21D4F748d98EFDBAB1F9396634B4b6d6B0";
 
 export const DAO_CONTRACT_ABI = [
   {
-    constant: false,
+    constant: true,
     inputs: [
       {
-        name: "_memberAddress",
-        type: "address",
-      },
-      {
-        name: "_lat",
-        type: "int256",
-      },
-      {
-        name: "_long",
-        type: "int256",
-      },
-    ],
-    name: "addDaoMember",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_proposalId",
+        name: "",
         type: "uint256",
       },
-    ],
-    name: "claimProposal",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
       {
-        name: "_proposalString",
-        type: "string",
-      },
-      {
-        name: "_ipfsHash",
-        type: "string",
-      },
-    ],
-    name: "createProposal",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_proposalId",
-        type: "uint256",
-      },
-    ],
-    name: "endProposalVoting",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_memberAddress",
+        name: "",
         type: "address",
       },
     ],
-    name: "removeDaoMember",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
+    name: "userVoteForProposal",
+    outputs: [
       {
-        name: "_tokenAddress",
-        type: "address",
-      },
-      {
-        name: "_superApp",
-        type: "address",
+        name: "",
+        type: "bool",
       },
     ],
-    name: "setAddresses",
-    outputs: [],
     payable: false,
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
-  },
-  {
-    constant: false,
-    inputs: [
-      {
-        name: "_proposalId",
-        type: "uint256",
-      },
-    ],
-    name: "settleOutcome",
-    outputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "constructor",
   },
   {
     constant: false,
@@ -147,218 +50,6 @@ export const DAO_CONTRACT_ABI = [
     ],
     payable: false,
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "arr",
-    outputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "_contract",
-        type: "address",
-      },
-      {
-        name: "_userAddress",
-        type: "address",
-      },
-    ],
-    name: "countVotes",
-    outputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "daoInsureTokenAddress",
-    outputs: [
-      {
-        name: "",
-        type: "address",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "daoMemberCount",
-    outputs: [
-      {
-        name: "",
-        type: "int256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "daoMemberMapping",
-    outputs: [
-      {
-        name: "memberAddress",
-        type: "address",
-      },
-      {
-        name: "lat",
-        type: "int256",
-      },
-      {
-        name: "long",
-        type: "int256",
-      },
-      {
-        name: "votes",
-        type: "uint256",
-      },
-      {
-        name: "proposals",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "_member",
-        type: "address",
-      },
-    ],
-    name: "getClaimAmount",
-    outputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "_adr",
-        type: "address",
-      },
-    ],
-    name: "isUserADaoMember",
-    outputs: [
-      {
-        name: "",
-        type: "bool",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [],
-    name: "proposalIdNumber",
-    outputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
-    inputs: [
-      {
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "proposalsMapping",
-    outputs: [
-      {
-        name: "proposalId",
-        type: "uint256",
-      },
-      {
-        name: "userAddress",
-        type: "address",
-      },
-      {
-        name: "proposalString",
-        type: "string",
-      },
-      {
-        name: "claimAmount",
-        type: "uint256",
-      },
-      {
-        name: "yesVotes",
-        type: "uint256",
-      },
-      {
-        name: "noVotes",
-        type: "uint256",
-      },
-      {
-        name: "voting",
-        type: "bool",
-      },
-      {
-        name: "passed",
-        type: "bool",
-      },
-      {
-        name: "endTime",
-        type: "uint256",
-      },
-      {
-        name: "ipfsHash",
-        type: "string",
-      },
-    ],
-    payable: false,
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -413,6 +104,14 @@ export const DAO_CONTRACT_ABI = [
             name: "ipfsHash",
             type: "string",
           },
+          {
+            name: "dateOfIncident",
+            type: "string",
+          },
+          {
+            name: "rainData",
+            type: "uint256",
+          },
         ],
         name: "",
         type: "tuple",
@@ -423,18 +122,27 @@ export const DAO_CONTRACT_ABI = [
     type: "function",
   },
   {
-    constant: true,
+    constant: false,
     inputs: [
       {
-        name: "_add",
-        type: "address",
+        name: "_proposalId",
+        type: "uint256",
       },
     ],
-    name: "returnUserClaims",
+    name: "settleOutcome",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "daoInsureTokenAddress",
     outputs: [
       {
         name: "",
-        type: "uint256[]",
+        type: "address",
       },
     ],
     payable: false,
@@ -442,18 +150,98 @@ export const DAO_CONTRACT_ABI = [
     type: "function",
   },
   {
-    constant: true,
+    constant: false,
     inputs: [
       {
-        name: "_add",
+        name: "_proposalString",
+        type: "string",
+      },
+      {
+        name: "_dt",
+        type: "string",
+      },
+      {
+        name: "_ipfsHash",
+        type: "string",
+      },
+    ],
+    name: "createProposal",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_memberAddress",
         type: "address",
       },
     ],
-    name: "returnUserVotes",
-    outputs: [
+    name: "removeDaoMember",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
       {
         name: "",
-        type: "uint256[]",
+        type: "uint256",
+      },
+    ],
+    name: "proposalsMapping",
+    outputs: [
+      {
+        name: "proposalId",
+        type: "uint256",
+      },
+      {
+        name: "userAddress",
+        type: "address",
+      },
+      {
+        name: "proposalString",
+        type: "string",
+      },
+      {
+        name: "claimAmount",
+        type: "uint256",
+      },
+      {
+        name: "yesVotes",
+        type: "uint256",
+      },
+      {
+        name: "noVotes",
+        type: "uint256",
+      },
+      {
+        name: "voting",
+        type: "bool",
+      },
+      {
+        name: "passed",
+        type: "bool",
+      },
+      {
+        name: "endTime",
+        type: "uint256",
+      },
+      {
+        name: "ipfsHash",
+        type: "string",
+      },
+      {
+        name: "dateOfIncident",
+        type: "string",
+      },
+      {
+        name: "rainData",
+        type: "uint256",
       },
     ],
     payable: false,
@@ -468,6 +256,43 @@ export const DAO_CONTRACT_ABI = [
       {
         name: "",
         type: "address",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_proposalId",
+        type: "uint256",
+      },
+      {
+        name: "_rain",
+        type: "uint256",
+      },
+    ],
+    name: "setRain",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "arr",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
       },
     ],
     payable: false,
@@ -498,18 +323,173 @@ export const DAO_CONTRACT_ABI = [
     type: "function",
   },
   {
-    constant: true,
+    constant: false,
     inputs: [
+      {
+        name: "_tokenAddress",
+        type: "address",
+      },
+      {
+        name: "_superApp",
+        type: "address",
+      },
+    ],
+    name: "setAddresses",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "proposalIdNumber",
+    outputs: [
       {
         name: "",
         type: "uint256",
       },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
       {
         name: "",
         type: "address",
       },
     ],
-    name: "userVoteForProposal",
+    name: "daoMemberMapping",
+    outputs: [
+      {
+        name: "memberAddress",
+        type: "address",
+      },
+      {
+        name: "lat",
+        type: "string",
+      },
+      {
+        name: "long",
+        type: "string",
+      },
+      {
+        name: "votes",
+        type: "uint256",
+      },
+      {
+        name: "proposals",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "claimProposal",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_memberAddress",
+        type: "address",
+      },
+      {
+        name: "_lat",
+        type: "string",
+      },
+      {
+        name: "_long",
+        type: "string",
+      },
+    ],
+    name: "addDaoMember",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_contract",
+        type: "address",
+      },
+      {
+        name: "_userAddress",
+        type: "address",
+      },
+    ],
+    name: "countVotes",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [],
+    name: "daoMemberCount",
+    outputs: [
+      {
+        name: "",
+        type: "int256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_add",
+        type: "address",
+      },
+    ],
+    name: "returnUserClaims",
+    outputs: [
+      {
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_adr",
+        type: "address",
+      },
+    ],
+    name: "isUserADaoMember",
     outputs: [
       {
         name: "",
@@ -519,5 +499,68 @@ export const DAO_CONTRACT_ABI = [
     payable: false,
     stateMutability: "view",
     type: "function",
+  },
+  {
+    constant: false,
+    inputs: [
+      {
+        name: "_proposalId",
+        type: "uint256",
+      },
+    ],
+    name: "endProposalVoting",
+    outputs: [],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_member",
+        type: "address",
+      },
+    ],
+    name: "getClaimAmount",
+    outputs: [
+      {
+        name: "",
+        type: "uint256",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    constant: true,
+    inputs: [
+      {
+        name: "_add",
+        type: "address",
+      },
+    ],
+    name: "returnUserVotes",
+    outputs: [
+      {
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    payable: false,
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        name: "_add",
+        type: "address",
+      },
+    ],
+    payable: false,
+    stateMutability: "nonpayable",
+    type: "constructor",
   },
 ];
