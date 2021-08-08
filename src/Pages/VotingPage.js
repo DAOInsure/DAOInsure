@@ -54,7 +54,7 @@ function stateReducer(state, action) {
       case ACTIONS.SET_MESSAGE:
           return { ...state, message: action.payload }
       case ACTIONS.SET_MESSAGES:
-          return { ...state, messages: [...action.payload] }
+          return { ...state, messages: [...state.messages, ...action.payload] }
       case ACTIONS.SET_CLAIM:
           return { ...state, claim: action.payload }
       case ACTIONS.SET_LOADING_CLAIM:
@@ -101,7 +101,7 @@ function VotingPage(props) {
   const { textileClient } = useContext(AppContext);
   const [ state, dispatch ] = useReducer(stateReducer, { currentImage: "", sendImage: "", message: "", messages: [], claim: "", loadingClaim: true, vote: 0 });
   const { id } = useParams();
-  const { allProposalsArray, fetchAllProposals } = useContext(Web3Context);
+  const { allProposalsArray, fetchAllProposals, signerAddress } = useContext(Web3Context);
 
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
@@ -157,7 +157,7 @@ function VotingPage(props) {
 
       console.log("listening");
       let closer = await textileClient.listen(ThreadID.fromString("bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"), [{actionTypes: ['CREATE'], collectionName: "messagesData" }], (reply, error) => {
-          dispatch({ type: ACTIONS.SET_MESSAGES, payload: [...messages, reply.instance] });    
+          dispatch({ type: ACTIONS.SET_MESSAGES, payload: [reply.instance] });    
       });
       return function cleanup() {
           closer();
@@ -227,7 +227,7 @@ function VotingPage(props) {
     let messageObj = {
       message: state.message,
       image: uploadedImage,
-      address: "0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69",
+      address: signerAddress,
       claimId: id,
     };
 
@@ -241,7 +241,7 @@ function VotingPage(props) {
     console.log("Message Sent", messageObj);
     dispatch({ type: ACTIONS.SET_MESSAGE, payload: "" }); 
     dispatch({ type: ACTIONS.SET_SEND_IMAGE, payload: "" });
-    dispatch({ type: ACTIONS.SET_MESSAGES, payload: [...state.messages, messageObj] });
+    // dispatch({ type: ACTIONS.SET_MESSAGES, payload: [messageObj] });
   };
 
   return (
