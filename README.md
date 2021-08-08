@@ -3,10 +3,10 @@
 
 <p align="center">
   <a href="https://github.com/DAOInsure/DAOInsure">
-    <img src="./public/assets/github.png" alt="Logo" width="480" height="240">
+    <img src="./public/assets/github.png" alt="Logo" width="638" height="158">
   </a>
   <h6>Built at ETHIndia ETHOdyssey 2021</h6>
-  <img src="./public/assets/EthIndia.svg" alt="Logo" width="120" height="120">
+  <img src="./public/assets/ETHIndia.svg" alt="Logo" width="120" height="120">
   </p>
   
   <p align="center"><a href="">Watch Demo Video on YouTube</a></p>
@@ -41,18 +41,18 @@
 ### Built With
 We have used the following technologies for this project:
 * [Solidity](https://docs.soliditylang.org/en/v0.8.3/) (Language for writing smart contracts of the Dapp)
-* [Chainlink](https://chain.link/) (For selecting the winner of NFT from the list of viewers!)
-* [Filecoin](https://filecoin.io/) (Voodify service for the persistence of video and transmissions)
-* [Infura](https://infura.io/) (Connect to the blockchain to provide event list widget to the creators)
-* [IPFS](https://ipfs.io/) (IPFS PubSub for chat feature and orbitdb for storing data)
-* [Superfluid](https://www.superfluid.finance/) (Superfluid CFA to enable the pay-as-you-use feature)
-* [Ʉnlock Protocol](https://unlock-protocol.com/)(Unlock lets is easily lock and manage access to our monetized content on NiftySubs.)
-* [Voodfy](https://www.voodfy.com/)(Voodfy uses Filecoin combined with IPFS to store your videos reliably and securely. We use it for live video streaming)
+* [Chainlink](https://chain.link/) (For getting provable weather data on Chain using Chainlink External Adapters)
+* [Filecoin](https://filecoin.io/) (Infura IPFS Node, along with Textile and Slate for uploading files to the IPFS, decentralised chat, all built on Filecoin)
+* [Infura](https://infura.io/) (APIs to Connect to the blockchain and free IPFS node)
+* [IPFS](https://ipfs.io/) (IPFS storing media related to DAOInsure Claims and Chats among the members of the DAO)
+* [Superfluid](https://www.superfluid.finance/) (Superfluid is used to stream Premium to the DAO Treasury, in return of DAO Tokens streamed back to the DAO Members.)
+* [Polygon](https://polygon.technology) (Polygon is a Layer-2 scaling solution built on top of Ethereum to solve for low throughput and high transaction costs. We have deployed our smart contracts to the Polygon Mumbai testnet to leverage the low transaction costs and low block time.)
 * [Metamask](https://metamask.io) (Wallet Provider)
-* [The Graph](https://thegraph.com/) (Query historical events to provide info on our dapp to both the creators and viewers)
-* [OrbitDB](https://orbitdb.org/) (For storing metadata about the video and creator profile information and pubsub live chat)
-* [Tailwind](https://tailwind.com) (CSS framework)
+* [Portis](https://portis.io) (Wallet Provider)
+* [The Graph](https://thegraph.com/) (Index the sum of streams using Superfluid Subgraph on Polygon Mumbai Testnet and render the statistics on a React-Nivo PieChart in the Dashboard.)
+* [Chakra-UI](https://chakra-ui.com) (CSS framework)
 * [ReactJS](https://reactjs.org/) (web UI)
+* [Nivo](https://nivo.rocks/) (nivo provides a rich set of dataviz components, built on top of the awesome d3 and Reactjs libraries.)
 
 ## Getting Started
 
