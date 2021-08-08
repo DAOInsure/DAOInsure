@@ -170,6 +170,7 @@ function MakeClaim() {
               type="file"
               style={{ display: "none" }}
               id="image-input"
+              accept="image/*"
             />
             {images.length == 0 ? (
               isPageLoading ? (

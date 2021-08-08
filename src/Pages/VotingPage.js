@@ -53,7 +53,7 @@ function stateReducer(state, action) {
     case ACTIONS.SET_MESSAGE:
       return { ...state, message: action.payload };
     case ACTIONS.SET_MESSAGES:
-      return { ...state, messages: [...action.payload] };
+      return { ...state, messages: [...state.messages, ...action.payload] };
     case ACTIONS.SET_CLAIM:
       return { ...state, claim: action.payload };
     case ACTIONS.SET_LOADING_CLAIM:
@@ -109,9 +109,13 @@ function VotingPage(props) {
     vote: 0,
   });
   const { id } = useParams();
-  const { allProposalsArray, fetchAllProposals, voteOnProposal } =
-    useContext(Web3Context);
 
+  const {
+    allProposalsArray,
+    fetchAllProposals,
+    voteOnProposal,
+    signerAddress,
+  } = useContext(Web3Context);
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
     defaultValue: "No",
@@ -175,10 +179,7 @@ function VotingPage(props) {
         ),
         [{ actionTypes: ["CREATE"], collectionName: "messagesData" }],
         (reply, error) => {
-          dispatch({
-            type: ACTIONS.SET_MESSAGES,
-            payload: [...messages, reply.instance],
-          });
+          dispatch({ type: ACTIONS.SET_MESSAGES, payload: [reply.instance] });
         }
       );
       return function cleanup() {
@@ -249,7 +250,7 @@ function VotingPage(props) {
     let messageObj = {
       message: state.message,
       image: uploadedImage,
-      address: "0x8Cf24E66d1DC40345B1bf97219856C8140Ce6c69",
+      address: signerAddress,
       claimId: id,
     };
 
@@ -263,10 +264,7 @@ function VotingPage(props) {
     console.log("Message Sent", messageObj);
     dispatch({ type: ACTIONS.SET_MESSAGE, payload: "" });
     dispatch({ type: ACTIONS.SET_SEND_IMAGE, payload: "" });
-    dispatch({
-      type: ACTIONS.SET_MESSAGES,
-      payload: [...state.messages, messageObj],
-    });
+    // dispatch({ type: ACTIONS.SET_MESSAGES, payload: [messageObj] });
   };
 
   return (
