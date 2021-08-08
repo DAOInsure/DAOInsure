@@ -7,13 +7,13 @@
   </a>
   <h6>Built at ETHIndia ETHOdyssey 2021 by DevFolio</h6>
   <img src="./public/assets/ETHIndia.svg" alt="Logo" width="120" height="120">
-  <img src="./public/assets/Devfolio.png" alt="Logo" width="120" height="120">
+  <img src="./public/assets/devfolio.png" alt="Logo">
   </p>
   
   <p align="center"><a href="">Watch Demo Video on YouTube</a></p>
 
 ## Bounties we have worked on
-<p align="center"><img src="./public/assets/4.png" alt="Logo" width="120" height="120">
+<p align="center"><img src="./public/assets/4.png" alt="Logo">
 
 ## _With a pay-as-you-use model, you can now watch your favorite creators at minimal cost only on NiftySubs_
 
@@ -38,7 +38,9 @@
 
 ## Architecture
 
+### How do users become members on DAOInsure DAO ?
 ![Flow of Control](./public/assets/3.png)
+### How does it all work ?
 ![Flow of Build of Network](./public/assets/1.png)
 ![Dataset Info](./public/assets/2.png)
 
@@ -54,9 +56,12 @@ We have used the following technologies for this project:
 * [Metamask](https://metamask.io) (Wallet Provider)
 * [Portis](https://portis.io) (Wallet Provider)
 * [The Graph](https://thegraph.com/) (Index the sum of streams using Superfluid Subgraph on Polygon Mumbai Testnet and render the statistics on a React-Nivo PieChart in the Dashboard.)
+* [Slate](https://slate.host)(Slate is a new file-sharing network built on Filecoin that makes it possible for people to collect, organize, and link files together.)
+* [StakeDAO](https://stakedao.org/)(Stake DAO is a non-custodial platform where you can do more with your money. Easily grow, track, and control your assets right from your wallet. We use StakeDAO to earn yield on Deposit using StakeDAO strategies)
 * [Chakra-UI](https://chakra-ui.com) (CSS framework)
 * [ReactJS](https://reactjs.org/) (web UI)
 * [Nivo](https://nivo.rocks/) (nivo provides a rich set of dataviz components, built on top of the awesome d3 and Reactjs libraries.)
+* [GCP](https://cloud.google.com/gcp)(We used a serverless function of our external adapter on GCP)
 
 ## Getting Started
 
