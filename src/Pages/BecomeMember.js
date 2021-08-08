@@ -53,6 +53,7 @@ function BecomeMember() {
       SUPERAPP_CONTRACT_ABI,
       signer
     );
+
     const walletAddress = await window.ethereum.request({
       method: "eth_requestAccounts",
       params: [
@@ -62,20 +63,57 @@ function BecomeMember() {
       ],
     });
 
-    console.log(contract);
+    // console.log(contract, walletAddress[0]);
 
     const sf = new SuperfluidSDK.Framework({
       ethers: provider,
     });
 
     await sf.initialize();
+    // console.log(SUPERAPP_CONTRACT_ADDRESS);
+    const carol = sf.user({
+      address: walletAddress[0],
+      token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+    });
+
+    await carol.flow({
+      recipient: SUPERAPP_CONTRACT_ADDRESS,
+      flowRate: "3858024691358",
+      userData: web3.eth.abi.encodeParameters(
+        ["string", "string"],
+        [latitude, longitude]
+      ),
+    });
+
+    const details = await carol.details();
+    console.log(details);
+
+    //address lockAddress = abi.decode(_host.decodeCtx(_ctx).userData, (address));
+    // instead of address you can decode 2 uint256 and similarly on left side you can have 2 variables
+
+    // const bob = sf.user({
+    //   address: walletAddress[0],
+    //   token: sf.tokens.fDAIx.address,
+    // });
+
+    // await bob.flow({
+    //   recipient: SUPERAPP_CONTRACT_ADDRESS,
+    //   flowRate: "3858024691358",
+    //   // userData: web3.eth.abi.encodeParameters(
+    //   //   ["address"],
+    //   //   ["0xbbbaaD77908e7143B6b4D5922fd201cd08568f63"]
+    //   // ),
+    // });
 
     // await sf.cfa.createFlow({
     //   superToken: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
     //   sender: walletAddress[0],
     //   receiver: SUPERAPP_CONTRACT_ADDRESS,
     //   flowRate: 3858024691358,
-    //   // userData: web3.eth.abi.encodeParameter("uint256", "12"),
+    //   userData: web3.eth.abi.encodeParameters(
+    //     ["address"],
+    //     ["0xbbbaaD77908e7143B6b4D5922fd201cd08568f63"]
+    //   ),
     // });
 
     // await sf.batchCall([
