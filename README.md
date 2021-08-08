@@ -15,7 +15,7 @@
 ## Bounties we have worked on
 <p align="center"><img src="./public/assets/4.png" alt="Logo">
 
-## _With a pay-as-you-use model, you can now watch your favorite creators at minimal cost only on NiftySubs_
+## _DAOInsure aims to solve the problem of transparency with respect to conventional Insurance reimbursements._
 
 <p align="center">
     <a href="">View Demo</a>
