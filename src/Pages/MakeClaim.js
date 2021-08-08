@@ -124,7 +124,7 @@ function MakeClaim() {
       claimTitle,
       claimSummary,
       dateOfIncident,
-      startTime,
+      // startTime,
       claimAmount: claimableAmount,
       author: signerAddress,
     };
@@ -140,7 +140,7 @@ function MakeClaim() {
     console.log((new Date(startTime).getTime() / 1000).toString());
     createProposal(
       claimTitle,
-      (new Date(startTime).getTime() / 1000).toString(),
+      (new Date(dateOfIncident).getTime() / 1000).toString(),
       response.hash
     );
   };
@@ -283,7 +283,7 @@ function MakeClaim() {
                       />
                     </Skeleton>
                   </FormControl>
-                  <FormControl isRequired>
+                  {/* <FormControl isRequired>
                     <Skeleton isLoaded={!isPageLoading}>
                       <FormLabel>Start Time</FormLabel>
                     </Skeleton>
@@ -293,7 +293,7 @@ function MakeClaim() {
                         type="datetime-local"
                       />
                     </Skeleton>
-                  </FormControl>
+                  </FormControl> */}
                 </HStack>
                 {/* <HStack width="100%">
                   <FormControl isRequired>
@@ -331,7 +331,7 @@ function MakeClaim() {
         <Card isLoading={isPageLoading} cardTitle="Claimable Amount">
           <Skeleton isLoaded={!isPageLoading}>
             <Heading textColor="whatsapp.500" fontSize="24px" as="h3">
-              {parseFloat(claimableAmount).toFixed(4)} DAI
+              {parseFloat(claimableAmount).toFixed(6)} DAI
             </Heading>
           </Skeleton>
         </Card>

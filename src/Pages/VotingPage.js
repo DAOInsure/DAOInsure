@@ -474,7 +474,7 @@ function VotingPage(props) {
       ) : (
         <InformationCards
           author={state.claim.author}
-          startDate={state.claim.startTime}
+          // startDate={state.claim.startTime}
           dateOfIncident={state.claim.dateOfIncident}
           ipfsHash={allProposalsArray[id].ipfsHash}
           yesVotes={allProposalsArray[id].yesVotes}
