@@ -57,7 +57,7 @@ function ActivityPage() {
         {
           query: `
                     {
-                        flows(where:{ recipient: "0xb77963bfd55f5246068c09a2048fa3ab310e4a17" }) {
+                        flows(where:{ recipient: "0x6d204133000eb404875bd94c7a802694a6e3e764" }) {
                         id
                         flowRate
                         lastUpdate
@@ -97,7 +97,7 @@ function ActivityPage() {
       setLoadingData(false);
     }
     init();
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     if (data != undefined) {
@@ -112,7 +112,6 @@ function ActivityPage() {
       }, 1000);
     }
   }, [data]);
-
   return (
     <Grid px="250px" gridGap="10px" py="20px">
       <Heading fontSize="24px" color="whatsapp.500">

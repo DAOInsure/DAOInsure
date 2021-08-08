@@ -84,12 +84,7 @@ function InformationCards({
           ) : (
             <a
               target="_blank"
-              href={
-                `https://www.google.co.in/maps/@` +
-                memberData.lat +
-                `,` +
-                memberData.long
-              }
+              href="https://www.google.co.in/maps/@15.3472129,74.0123075,10z"
             >
               Map
             </a>
@@ -163,9 +158,8 @@ function InformationCards({
             ) : (
               <Text fontWeight="600">
                 {(yesVotes / (yesVotes + noVotes)) * 100
-                  ? (yesVotes / (yesVotes + noVotes)) * 100
+                  ? (yesVotes / (yesVotes + noVotes)) * 10
                   : "0"}
-                %
               </Text>
             )}
           </HStack>
@@ -186,9 +180,8 @@ function InformationCards({
             ) : (
               <Text fontWeight="600">
                 {(noVotes / (yesVotes + noVotes)) * 100
-                  ? (noVotes / (yesVotes + noVotes)) * 100
+                  ? (noVotes / (yesVotes + noVotes)) * 10
                   : "0"}
-                %
               </Text>
             )}
           </HStack>

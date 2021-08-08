@@ -107,7 +107,7 @@ function ClaimsPage() {
         </TabPanels>
       </Tabs>
       <Stats
-        claims={acceptedProposalsArray.length + rejectedProposalsArray.length}
+        claims={allProposalsArray.length}
         daoMemberCount={daoMemberCount}
       />
     </Grid>
