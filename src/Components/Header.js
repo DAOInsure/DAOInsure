@@ -1,8 +1,20 @@
-import { Heading, HStack, Button, Spacer, Image, Modal, ModalOverlay, ModalCloseButton, ModalBody, useDisclosure, ModalContent, ModalHeader } from "@chakra-ui/react";
+import {
+  Heading,
+  HStack,
+  Button,
+  Spacer,
+  Image,
+  Modal,
+  ModalOverlay,
+  ModalCloseButton,
+  ModalBody,
+  useDisclosure,
+  ModalContent,
+  ModalHeader,
+} from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { Web3Context } from "../utils/Web3Context";
-
 
 function Header(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -13,13 +25,13 @@ function Header(props) {
     provider,
     signer,
     checkIfMemberExists,
-    correctNetwork
+    correctNetwork,
   } = web3Context;
 
   function connect() {
     connectWallet().then(async (data) => {
       console.log(data.provider.networkVersion);
-      if(data.provider.networkVersion == "80001") {
+      if (data.provider.networkVersion == "80001") {
         checkIfMemberExists(data).then((value) => {
           if (value === true) {
             props.setIsMember(true);
@@ -42,14 +54,10 @@ function Header(props) {
       py={3}
     >
       <Modal isOpen={isOpen} onClose={onClose} closeOnOverlayClick={false}>
-        <ModalOverlay  />
+        <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            Invalid Network
-          </ModalHeader>
-          <ModalBody>
-            Please connect to Mumbai Testnet.
-          </ModalBody>
+          <ModalHeader>Invalid Network</ModalHeader>
+          <ModalBody>Please connect to Mumbai Testnet.</ModalBody>
         </ModalContent>
       </Modal>
       <Link to="/">
@@ -58,6 +66,9 @@ function Header(props) {
       <Spacer />
       <Link to="/profile">
         <Button colorScheme="whatsapp">Profile</Button>
+      </Link>
+      <Link to="/activity">
+        <Button colorScheme="whatsapp">Activity</Button>
       </Link>
       {/* <Link to="/voting">
       <Button colorScheme="whatsapp" variant="solid">

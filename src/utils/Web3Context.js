@@ -171,12 +171,16 @@ export function Web3ContextProvider({ children }) {
   };
 
   const fetchAllProposals = async () => {
-    if (allProposalsArray.length == 0) {
-      let contract = new ethers.Contract(
-        DAO_CONTRACT_ADDRESS,
-        DAO_CONTRACT_ABI,
-        signer
-      );
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let proposalCount = await contract.proposalIdNumber();
+
+    if (allProposalsArray.length != proposalCount.toNumber()) {
+      setAllProposalsArray([]);
       let proposalsNum = await contract.proposalIdNumber();
       sortProposals(contract, proposalsNum.toNumber());
       getDaoMemberCount();

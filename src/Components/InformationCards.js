@@ -12,6 +12,7 @@ import {
   SkeletonCircle,
 } from "@chakra-ui/react";
 import Card from "./Card";
+import ChainlinkCard from "./ChainlinkCard";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import Jazzicon from "./Jazzicon";
 import axios from "axios";
@@ -26,6 +27,7 @@ function InformationCards({
   ipfsHash,
   yesVotes,
   noVotes,
+  rainData,
 }) {
   const voters = [""];
 
@@ -82,7 +84,7 @@ function InformationCards({
             <Text>{new Date(Date.now()).toDateString()}</Text>
           )}
         </HStack> */}
-        <HStack width="100%">
+        {/* <HStack width="100%">
           <Text fontWeight="600">End Date</Text>
           <Spacer />
           {loadingClaim ? (
@@ -90,7 +92,7 @@ function InformationCards({
           ) : (
             <Text>{new Date(Date.now()).toDateString()}</Text>
           )}
-        </HStack>
+        </HStack> */}
         {/* <HStack width="100%">
                     <Text fontWeight="600">Block</Text>
                     <Spacer />
@@ -121,6 +123,16 @@ function InformationCards({
           </HStack>
         </VStack>
       </Card>
+      <ChainlinkCard cardTitle="">
+        <VStack width="100%">
+          <HStack width="100%">
+            <Text fontWeight="600">Rain data : </Text>
+            <Text fontWeight="600">{rainData} mm</Text>
+
+            <Spacer />
+          </HStack>
+        </VStack>
+      </ChainlinkCard>
       <Card cardTitle="Current Results">
         <VStack width="100%">
           <HStack width="100%">
@@ -165,7 +177,7 @@ function InformationCards({
             borderRadius="20px"
             background="gray.300"
             height="10px"
-            value={loadingClaim ? 0 : (noVotes / (yesVotes + noVotes)) * 100}
+            value={loadingClaim ? 0 : noVotes / (yesVotes + noVotes)}
             colorScheme="green"
             size="lg"
           />
