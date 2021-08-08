@@ -27,12 +27,14 @@
 
 ##  Features
 
-<p> ✔️  </p>
-<p> ✔️  </p>
-<p> ✔️  </p>
-<p> ✔️  </p>
-<p> ✔️  </p>
-<p> ✔️  </p>
+<p> ✔️ A user needs to start streaming DAIx at 10DAIx/month rate as Insurance Premium to the DAOInsure Treasury to become a member. Members receive streams of $INSURE tokens at the same rate. We provide seamless connection using Metamask and  and a flexible experience with Portis. </p>
+<p> ✔️  StakeDAO provides effortless ways to earn yield on the Premium Deposit.</p>
+<p> ✔️  Farmers hit by Floods/Rains, make a claim on DAOInsure.  Claim Data may include media, information about the incident. Data is uploaded to IPFS using (Textile + Fleek + Slate). IPFS cId from the Claim Data is fed to the smart contract which fetches  provable weather Data using Chainlink Oracles that call the  Chainlink External Adapter as a serverless function on GCP hosted on LinkRiver node Services running on Polygon Mumbai Testnet.  In this way, we fetch data 
+Weather Data on Chain from Open Weather APIs. </p>
+<p> ✔️ The Smart contract thus creates a open proposal, on which DAOInsure members vote YES or NO to delegate the reimbursement to the claimer. </p>
+<p> ✔️ If accpeted the funds are delegated as insurance to the Claimer, and if rejected the claim is simply deleted. Members can view Open and Closed Claims on DAOInsure </p>
+<p> ✔️  We also enable DAO members to interact and exchabge media on the dApp using a Chat Interface built with Textile. In this way, claimers can provide better data to support the credibility of their claim.</p>
+<p> ✔️ We also Index Data on Chain with The Graph + Superfluid Subgraph on Polygon. Check real time analysis on our Dashboard powered by Nivo and The Graph and view insight on Outflows and the associated addresses of the DAOInsure Members. </p>
  
  **A lot more to come!**
 
