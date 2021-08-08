@@ -5,11 +5,15 @@
   <a href="https://github.com/DAOInsure/DAOInsure">
     <img src="./public/assets/github.png" alt="Logo" width="638" height="158">
   </a>
-  <h6>Built at ETHIndia ETHOdyssey 2021</h6>
+  <h6>Built at ETHIndia ETHOdyssey 2021 by DevFolio</h6>
   <img src="./public/assets/ETHIndia.svg" alt="Logo" width="120" height="120">
+  <img src="./public/assets/Devfolio.png" alt="Logo" width="120" height="120">
   </p>
   
   <p align="center"><a href="">Watch Demo Video on YouTube</a></p>
+
+## Bounties we have worked on
+<p align="center"><img src="./public/assets/4.png" alt="Logo" width="120" height="120">
 
 ## _With a pay-as-you-use model, you can now watch your favorite creators at minimal cost only on NiftySubs_
 
@@ -34,9 +38,9 @@
 
 ## Architecture
 
-![Flow of Control](./src/assets/architecture1.png)
-![Flow of Build of Network](./src/assets/architecture2.png)
-![Dataset Info](./src/assets/architecture3.png)
+![Flow of Control](./public/assets/3.png)
+![Flow of Build of Network](./public/assets/1.png)
+![Dataset Info](./public/assets/2.png)
 
 ### Built With
 We have used the following technologies for this project:
