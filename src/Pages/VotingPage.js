@@ -115,6 +115,7 @@ function VotingPage(props) {
     fetchAllProposals,
     voteOnProposal,
     signerAddress,
+    claimProposal,
   } = useContext(Web3Context);
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
@@ -320,7 +321,22 @@ function VotingPage(props) {
             <Text>{state.claim.claimSummary}</Text>
           </>
         )}
-
+        <Box
+          _hover={{ boxShadow: "base", transform: "scale(1.01)" }}
+          transition="all .3s"
+          textColor="white"
+          fontWeight="600"
+          width="30%"
+          backgroundColor="whatsapp.500"
+          borderRadius="20px"
+          textAlign="center"
+          py={2}
+          borderColor="whatsapp.500"
+          colorScheme="whatsapp"
+          onClick={() => claimProposal(id)}
+        >
+          Claim
+        </Box>
         <Card cardTitle="Cast Your Vote">
           {state.loadingClaim ? (
             <Spinner margin="auto" borderColor="whatsapp.500" />

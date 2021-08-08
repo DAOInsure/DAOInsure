@@ -284,6 +284,23 @@ export function Web3ContextProvider({ children }) {
     console.log(receipt);
   };
 
+  const claimProposal = async (id) => {
+    let contract = new ethers.Contract(
+      DAO_CONTRACT_ADDRESS,
+      DAO_CONTRACT_ABI,
+      signer
+    );
+
+    let claim = await contract.claimProposal(id);
+    try {
+      const receipt = await claim.wait();
+      alert("Your claim is fulfilled! Check your wallet");
+      console.log(receipt);
+    } catch (error) {
+      alert(error.data.message);
+    }
+  };
+
   return (
     <Web3Context.Provider
       value={{
@@ -311,6 +328,7 @@ export function Web3ContextProvider({ children }) {
         getClaimableAmount,
         claimableAmount,
         voteOnProposal,
+        claimProposal,
       }}
     >
       {children}
