@@ -28,7 +28,7 @@ function Stats(props) {
       >
         <Text fontWeight="600">Treasury Funds</Text>
         <Heading fontSize="24px" textColor="whatsapp.500">
-          10,234 ETH
+          50 DAI
         </Heading>
       </VStack>
       <VStack
@@ -42,7 +42,7 @@ function Stats(props) {
         boxShadow="base"
         borderRadius="10px"
       >
-        <Text fontWeight="600">Claims Reimbursed</Text>
+        <Text fontWeight="600">Total Claims</Text>
         <Heading fontSize="24px" textColor="whatsapp.500">
           {props.claims}
         </Heading>

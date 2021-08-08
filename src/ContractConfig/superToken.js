@@ -1,5 +1,5 @@
 export const SUPERTOKEN_CONTRACT_ADDRESS =
-  "0xecca2BE3ebBb57F49df086DB56150c0cb7329018";
+  "0xc71136cE9F76AE48D6759C89862593dC71836a51";
 
 export const SUPERTOKEN_CONTRACT_ABI = [
   {
@@ -473,30 +473,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "spender",
-        type: "address",
-      },
-    ],
-    name: "allowance",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "spender",
         type: "address",
       },
@@ -528,25 +504,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     name: "authorizeOperator",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "balanceOf",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -586,19 +543,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "decimals",
-    outputs: [
-      {
-        internalType: "uint8",
-        name: "",
-        type: "uint8",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -623,19 +567,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "defaultOperators",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -646,127 +577,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     name: "downgrade",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "getAccountActiveAgreements",
-    outputs: [
-      {
-        internalType: "contract ISuperAgreement[]",
-        name: "activeAgreements",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "agreementClass",
-        type: "address",
-      },
-      {
-        internalType: "bytes32",
-        name: "id",
-        type: "bytes32",
-      },
-      {
-        internalType: "uint256",
-        name: "dataLength",
-        type: "uint256",
-      },
-    ],
-    name: "getAgreementData",
-    outputs: [
-      {
-        internalType: "bytes32[]",
-        name: "data",
-        type: "bytes32[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "agreementClass",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "slotId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "dataLength",
-        type: "uint256",
-      },
-    ],
-    name: "getAgreementStateSlot",
-    outputs: [
-      {
-        internalType: "bytes32[]",
-        name: "slotData",
-        type: "bytes32[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getHost",
-    outputs: [
-      {
-        internalType: "address",
-        name: "host",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getUnderlyingToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "tokenAddr",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "granularity",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -824,116 +634,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    name: "isAccountCritical",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "isCritical",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "isAccountCriticalNow",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "isCritical",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    name: "isAccountSolvent",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "isSolvent",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "isAccountSolventNow",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "isSolvent",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "operator",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "tokenHolder",
-        type: "address",
-      },
-    ],
-    name: "isOperatorFor",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "bytes32",
         name: "id",
         type: "bytes32",
@@ -962,19 +662,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     name: "makeLiquidationPayouts",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "name",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -1129,74 +816,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     inputs: [
       {
         internalType: "address",
-        name: "account",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    name: "realtimeBalanceOf",
-    outputs: [
-      {
-        internalType: "int256",
-        name: "availableBalance",
-        type: "int256",
-      },
-      {
-        internalType: "uint256",
-        name: "deposit",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "owedDeposit",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "account",
-        type: "address",
-      },
-    ],
-    name: "realtimeBalanceOfNow",
-    outputs: [
-      {
-        internalType: "int256",
-        name: "availableBalance",
-        type: "int256",
-      },
-      {
-        internalType: "uint256",
-        name: "deposit",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "owedDeposit",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "operator",
         type: "address",
       },
@@ -1294,19 +913,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "symbol",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "bytes32",
@@ -1322,19 +928,6 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     name: "terminateAgreement",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -1478,6 +1071,413 @@ export const SUPERTOKEN_CONTRACT_ABI = [
     name: "upgradeTo",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "spender",
+        type: "address",
+      },
+    ],
+    name: "allowance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "balanceOf",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "balance",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "decimals",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "defaultOperators",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "getAccountActiveAgreements",
+    outputs: [
+      {
+        internalType: "contract ISuperAgreement[]",
+        name: "activeAgreements",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "agreementClass",
+        type: "address",
+      },
+      {
+        internalType: "bytes32",
+        name: "id",
+        type: "bytes32",
+      },
+      {
+        internalType: "uint256",
+        name: "dataLength",
+        type: "uint256",
+      },
+    ],
+    name: "getAgreementData",
+    outputs: [
+      {
+        internalType: "bytes32[]",
+        name: "data",
+        type: "bytes32[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "agreementClass",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "slotId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "dataLength",
+        type: "uint256",
+      },
+    ],
+    name: "getAgreementStateSlot",
+    outputs: [
+      {
+        internalType: "bytes32[]",
+        name: "slotData",
+        type: "bytes32[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getHost",
+    outputs: [
+      {
+        internalType: "address",
+        name: "host",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getUnderlyingToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "tokenAddr",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "granularity",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "isAccountCritical",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "isCritical",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "isAccountCriticalNow",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "isCritical",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "isAccountSolvent",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "isSolvent",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "isAccountSolventNow",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "isSolvent",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "tokenHolder",
+        type: "address",
+      },
+    ],
+    name: "isOperatorFor",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "name",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    name: "realtimeBalanceOf",
+    outputs: [
+      {
+        internalType: "int256",
+        name: "availableBalance",
+        type: "int256",
+      },
+      {
+        internalType: "uint256",
+        name: "deposit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "owedDeposit",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+    ],
+    name: "realtimeBalanceOfNow",
+    outputs: [
+      {
+        internalType: "int256",
+        name: "availableBalance",
+        type: "int256",
+      },
+      {
+        internalType: "uint256",
+        name: "deposit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "owedDeposit",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "symbol",
+    outputs: [
+      {
+        internalType: "string",
+        name: "",
+        type: "string",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalSupply",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
 ];

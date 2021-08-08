@@ -1,5 +1,5 @@
 export const SUPERAPP_CONTRACT_ADDRESS =
-  "0xB77963BfD55F5246068c09a2048fA3ab310E4a17";
+  "0x6d204133000Eb404875bD94C7a802694A6e3E764";
 
 export const SUPERAPP_CONTRACT_ABI = [
   {
@@ -242,24 +242,6 @@ export const SUPERAPP_CONTRACT_ABI = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_recipient",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdrawAmount",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "contract ISuperfluid",
         name: "host",
         type: "address",
@@ -282,6 +264,24 @@ export const SUPERAPP_CONTRACT_ABI = [
     ],
     stateMutability: "nonpayable",
     type: "constructor",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_recipient",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "withdrawAmount",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
