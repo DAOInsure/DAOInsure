@@ -108,6 +108,7 @@ function VotingPage(props) {
     loadingClaim: true,
     vote: 0,
   });
+  
   const { id } = useParams();
 
   const {
@@ -174,6 +175,7 @@ function VotingPage(props) {
       dispatch({ type: ACTIONS.SET_MESSAGES, payload: messages });
 
       console.log("listening");
+      
       let closer = await textileClient.listen(
         ThreadID.fromString(
           "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"
@@ -183,6 +185,7 @@ function VotingPage(props) {
           dispatch({ type: ACTIONS.SET_MESSAGES, payload: [reply.instance] });
         }
       );
+      
       return function cleanup() {
         closer();
       };
