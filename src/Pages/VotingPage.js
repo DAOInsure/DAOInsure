@@ -108,7 +108,7 @@ function VotingPage(props) {
     loadingClaim: true,
     vote: 0,
   });
-  
+
   const { id } = useParams();
 
   const {
@@ -116,6 +116,7 @@ function VotingPage(props) {
     fetchAllProposals,
     voteOnProposal,
     signerAddress,
+    claimProposal,
   } = useContext(Web3Context);
   const { getRootProps, getRadioProps } = useRadioGroup({
     name: "Vote",
@@ -174,7 +175,7 @@ function VotingPage(props) {
       dispatch({ type: ACTIONS.SET_MESSAGES, payload: messages });
 
       console.log("listening");
-      
+
       let closer = await textileClient.listen(
         ThreadID.fromString(
           "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"
@@ -184,7 +185,7 @@ function VotingPage(props) {
           dispatch({ type: ACTIONS.SET_MESSAGES, payload: [reply.instance] });
         }
       );
-      
+
       return function cleanup() {
         closer();
       };
@@ -322,6 +323,26 @@ function VotingPage(props) {
             )}
             <Text>{state.claim.claimSummary}</Text>
           </>
+        )}
+        {signerAddress == allProposalsArray[id][1] ? (
+          <Box
+            _hover={{ boxShadow: "base", transform: "scale(1.01)" }}
+            transition="all .3s"
+            textColor="white"
+            fontWeight="600"
+            width="30%"
+            backgroundColor="whatsapp.500"
+            borderRadius="20px"
+            textAlign="center"
+            py={2}
+            borderColor="whatsapp.500"
+            colorScheme="whatsapp"
+            onClick={() => claimProposal(id)}
+          >
+            Claim
+          </Box>
+        ) : (
+          <span> </span>
         )}
 
         <Card cardTitle="Cast Your Vote">
@@ -482,6 +503,7 @@ function VotingPage(props) {
           ipfsHash={allProposalsArray[id].ipfsHash}
           yesVotes={allProposalsArray[id].yesVotes}
           noVotes={allProposalsArray[id].noVotes}
+          rainData={allProposalsArray[id].rainData.toNumber()}
         />
       )}
     </Grid>

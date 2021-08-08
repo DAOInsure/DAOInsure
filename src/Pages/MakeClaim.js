@@ -137,7 +137,7 @@ function MakeClaim() {
     });
     // let response = await addToThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "claimsData", claimObj);
     console.log(response);
-    console.log((new Date(startTime).getTime() / 1000).toString());
+    console.log((new Date(dateOfIncident).getTime() / 1000).toString());
     createProposal(
       claimTitle,
       (new Date(dateOfIncident).getTime() / 1000).toString(),
