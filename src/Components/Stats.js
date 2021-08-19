@@ -1,5 +1,7 @@
 import { VStack, Text, Heading } from "@chakra-ui/react";
 import { useCountUp } from "react-countup";
+import { useEffect } from "react";
+import axios from "axios";
 
 function Stats(props) {
   //   useCountUp({ ref: "count-up-members", end: 47, delay: 0, duration: 2 });
@@ -12,6 +14,7 @@ function Stats(props) {
   //     duration: 2,
   //   });
   //   useCountUp({ ref: "count-up-claims", end: 57, delay: 0, duration: 2 });
+
 
   return (
     <VStack width="100%">
@@ -28,7 +31,7 @@ function Stats(props) {
       >
         <Text fontWeight="600">Treasury Funds</Text>
         <Heading fontSize="24px" textColor="whatsapp.500">
-          50 DAI
+          {parseFloat(props.treasuryBalance).toFixed(2)} DAI
         </Heading>
       </VStack>
       <VStack

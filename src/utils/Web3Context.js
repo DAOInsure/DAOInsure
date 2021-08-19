@@ -34,6 +34,7 @@ export function Web3ContextProvider({ children }) {
   const [correctNetwork, setCorrectNetwork] = useState();
   const [claimableAmount, setClaimableAmount] = useState(0);
   const [memberData, setMemberData] = useState();
+  const [treasuryBalance, setTreasuryBalance] = useState(0);
 
   const getAddress = async () => {
     const signer = provider.getSigner();
@@ -262,7 +263,8 @@ export function Web3ContextProvider({ children }) {
 
     let proposal = await contract.createProposal(title, time, hash);
     const receipt = await proposal.wait();
-    // console.log(receipt);
+    console.log(receipt);
+    // alert(``);
   };
 
   const getClaimableAmount = async () => {
@@ -318,6 +320,18 @@ export function Web3ContextProvider({ children }) {
     setMemberData(member);
   };
 
+  const balanceInTreasury = async () => {
+    let contract = new ethers.Contract(
+      "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
+      SUPERTOKEN_CONTRACT_ABI,
+      signer
+    );
+
+    let value = await contract.balanceOf("0x6d204133000Eb404875bD94C7a802694A6e3E764");
+    console.log(ethers.utils.formatEther(value));
+    setTreasuryBalance(ethers.utils.formatEther(value));
+  }
+
   return (
     <Web3Context.Provider
       value={{
@@ -348,6 +362,8 @@ export function Web3ContextProvider({ children }) {
         claimProposal,
         fetchMemberInfo,
         memberData,
+        balanceInTreasury,
+        treasuryBalance
       }}
     >
       {children}

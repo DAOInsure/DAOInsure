@@ -35,6 +35,8 @@ function ClaimsPage() {
     rejectedProposalsArray,
     daoMemberCount,
     setDaoMemberCount,
+    balanceInTreasury,
+    treasuryBalance
   } = web3Context;
 
   useEffect(() => {
@@ -59,6 +61,11 @@ function ClaimsPage() {
     fetchAllProposals();
     console.log(openProposalsArray);
   }, []);
+
+  useEffect(() => {
+    balanceInTreasury();
+  }, []);
+
 
   return (
     <Grid
@@ -109,6 +116,7 @@ function ClaimsPage() {
       <Stats
         claims={allProposalsArray.length}
         daoMemberCount={daoMemberCount}
+        treasuryBalance={treasuryBalance}
       />
     </Grid>
   );
