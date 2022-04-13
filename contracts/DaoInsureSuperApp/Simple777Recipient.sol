@@ -11,6 +11,7 @@ import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/release-v3.2
  */
 contract Simple777Recipient is IERC777Recipient {
     // erc 1820 registry keeps track of any interface implemented by any contract directly or via proxy.
+    // address takes from EIP
     IERC1820Registry private _erc1820 =
         IERC1820Registry(0x1820a4B7618BdE71Dce8cdc73aAB6C95905faD24);
     bytes32 private constant TOKENS_RECIPIENT_INTERFACE_HASH =
