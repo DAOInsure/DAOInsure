@@ -37,6 +37,7 @@ function ClaimsPage() {
 		async function init() {
 			console.log(textileClient);
 			if (textileClient) {
+				// textile database querying the thread using threadId and collection where claims are present.
 				let openClaims = await queryThread(
 					textileClient,
 					"bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q",

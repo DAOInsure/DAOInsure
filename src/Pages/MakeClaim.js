@@ -72,11 +72,6 @@ function MakeClaim() {
 		}
 	};
 
-	const handleStartTime = async (e) => {
-		e.preventDefault();
-		setStartTime(new Date(e.target.value).toUTCString());
-	};
-
 	const handleCurrentImage = (e) => {
 		e.preventDefault();
 		setCurrentImage(e.target.src);
@@ -97,20 +92,28 @@ function MakeClaim() {
 			claimTitle,
 			claimSummary,
 			dateOfIncident,
-			// startTime,
 			claimAmount: claimableAmount,
 			author: signerAddress,
 		};
 		console.log(claimObj);
-		let response = await fleekStorage.upload({
-			apiKey: "3aFyv9UlnpyVvuhdoy+WMA==",
-			apiSecret: "vUREhYRSH5DP8WehKP+N8jTLoOJUBw+RA9TPLUKneK8=",
-			key: uuidv4(),
-			data: JSON.stringify(claimObj),
-		});
-		// let response = await addToThread(textileClient, "bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q", "claimsData", claimObj);
-		console.log(response);
-		console.log((new Date(dateOfIncident).getTime() / 1000).toString());
+
+		// tried using fleek instead of threadDB.
+		// let response = await fleekStorage.upload({
+		// 	apiKey: "3aFyv9UlnpyVvuhdoy+WMA==",
+		// 	apiSecret: "vUREhYRSH5DP8WehKP+N8jTLoOJUBw+RA9TPLUKneK8=",
+		// 	key: uuidv4(),
+		// 	data: JSON.stringify(claimObj),
+		// });
+
+		// adding claim data to threadDB.
+		let response = await addToThread(
+			textileClient,
+			"bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q",
+			"claimsData",
+			claimObj
+		);
+
+		// create proposal on contract basically store the hash.
 		createProposal(
 			claimTitle,
 			(new Date(dateOfIncident).getTime() / 1000).toString(),
@@ -283,34 +286,7 @@ function MakeClaim() {
 											/>
 										</Skeleton>
 									</FormControl>
-									{/* <FormControl isRequired>
-                    <Skeleton isLoaded={!isPageLoading}>
-                      <FormLabel>Start Time</FormLabel>
-                    </Skeleton>
-                    <Skeleton isLoaded={!isPageLoading}>
-                      <Input
-                        onChange={(e) => handleStartTime(e, setStartTime)}
-                        type="datetime-local"
-                      />
-                    </Skeleton>
-                  </FormControl> */}
 								</HStack>
-								{/* <HStack width="100%">
-                  <FormControl isRequired>
-                    <Skeleton isLoaded={!isPageLoading}>
-                      <FormLabel>Claimable Amount</FormLabel>
-                    </Skeleton>
-                    <Skeleton isLoaded={!isPageLoading}>
-                      <InputGroup>
-                        <Input
-                          onChange={(e) => handleInputChange(e, setClaimAmount)}
-                          type="number"
-                        />
-                        <InputRightAddon>USDCx</InputRightAddon>
-                      </InputGroup>
-                    </Skeleton>
-                  </FormControl>
-                </HStack> */}
 							</VStack>
 							<Button
 								onClick={(e) => handleClaimSubmit(e)}

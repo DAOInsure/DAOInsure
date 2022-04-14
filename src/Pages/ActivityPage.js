@@ -46,6 +46,7 @@ function ActivityPage() {
 	useEffect(() => {
 		async function init() {
 			setLoadingData(true);
+			// querying superfluid subgraph to create pie diagram of flow towards DAO Contract
 			const response = await axios.post(
 				"https://api.thegraph.com/subgraphs/name/superfluid-finance/superfluid-mumbai",
 				{

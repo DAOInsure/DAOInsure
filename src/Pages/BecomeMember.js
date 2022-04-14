@@ -31,8 +31,7 @@ import { useState } from "react";
 const SuperfluidSDK = require("@superfluid-finance/js-sdk");
 
 function BecomeMember() {
-	const { signerAddress, infuraRPC, provider, signer } =
-		useContext(Web3Context);
+	const { signerAddress, provider, signer } = useContext(Web3Context);
 	const { isOpen, onOpen, onClose } = useDisclosure();
 
 	const [latitude, setLatitude] = useState();
@@ -62,16 +61,20 @@ function BecomeMember() {
 			],
 		});
 
+		// this sdk has a lot of changes (breaking changes) from the version we used.
 		const sf = new SuperfluidSDK.Framework({
 			ethers: provider,
 		});
 
 		await sf.initialize();
+
+		// creating user from unlocked address. token is super token.
 		const carol = sf.user({
 			address: walletAddress[0],
 			token: "0x5D8B4C2554aeB7e86F387B4d6c00Ac33499Ed01f",
 		});
 
+		// creating a flow, user data can contain arbitary data.
 		await carol.flow({
 			recipient: SUPERAPP_CONTRACT_ADDRESS,
 			flowRate: "3858024691358",
@@ -81,6 +84,7 @@ function BecomeMember() {
 			),
 		});
 
+		// details of the user like incoming and outgoing flow rates, and the various active flows along with types.
 		const details = await carol.details();
 		console.log(details);
 

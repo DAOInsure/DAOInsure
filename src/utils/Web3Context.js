@@ -34,6 +34,7 @@ export function Web3ContextProvider({ children }) {
 	const [claimableAmount, setClaimableAmount] = useState(0);
 	const [memberData, setMemberData] = useState();
 
+	// app only available on polygon testnet.
 	const getAddress = async () => {
 		const signer = provider.getSigner();
 		const address = await signer.getAddress();
@@ -199,7 +200,9 @@ export function Web3ContextProvider({ children }) {
 			// console.log(proposal);
 			setAllProposalsArray((oldArray) => [...oldArray, proposal]);
 
+			// checking if proposal is active or not.
 			switch (proposal[6]) {
+				// if true push to open proposals array.
 				case true:
 					setOpenProposalsArray((oldArray) => [
 						...oldArray,
@@ -207,6 +210,7 @@ export function Web3ContextProvider({ children }) {
 					]);
 					break;
 
+				// else check if proposal was accepted or rejected.
 				case false:
 					if (proposal[7] === true) {
 						setAcceptedProposalsArray((oldArray) => [
@@ -276,7 +280,6 @@ export function Web3ContextProvider({ children }) {
 
 		let proposal = await contract.createProposal(title, time, hash);
 		const receipt = await proposal.wait();
-		// console.log(receipt);
 	};
 
 	const getClaimableAmount = async () => {
@@ -287,7 +290,6 @@ export function Web3ContextProvider({ children }) {
 		);
 
 		let claim = await contract.getClaimAmount(signerAddress);
-		// console.log("test", ethers.utils.formatEther(claim));
 		setClaimableAmount(ethers.utils.formatEther(claim));
 	};
 
@@ -314,7 +316,6 @@ export function Web3ContextProvider({ children }) {
 		try {
 			const receipt = await claim.wait();
 			alert("Your claim is fulfilled! Check your wallet");
-			console.log(receipt);
 		} catch (error) {
 			alert(error.data.message);
 		}

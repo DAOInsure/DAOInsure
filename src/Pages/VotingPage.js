@@ -153,6 +153,7 @@ function VotingPage(props) {
 			console.log(myFile);
 			dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
 
+			// messages from the chat feature are stored in textile. A single collection of all message but can be distinguished using claimId.
 			let messages = await queryThread(
 				textileClient,
 				"bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q",
@@ -164,6 +165,7 @@ function VotingPage(props) {
 
 			console.log("listening");
 
+			// listener for new messages that are added to the collection.
 			let closer = await textileClient.listen(
 				ThreadID.fromString(
 					"bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q"
@@ -177,6 +179,7 @@ function VotingPage(props) {
 				}
 			);
 
+			// close listener
 			return function cleanup() {
 				closer();
 			};
@@ -216,6 +219,7 @@ function VotingPage(props) {
 	const handleSendMessage = async () => {
 		let uploadedImage = "";
 
+		// upload image if any in message to slate.
 		if (state.sendImage) {
 			let result = await uploadToSlate(state.sendImage);
 			uploadedImage = `https://slate.textile.io/ipfs/${result.data.cid}`;
@@ -234,8 +238,6 @@ function VotingPage(props) {
 			"messagesData",
 			messageObj
 		);
-		console.log(resultFromTextile);
-		console.log("Message Sent", messageObj);
 		dispatch({ type: ACTIONS.SET_MESSAGE, payload: "" });
 		dispatch({ type: ACTIONS.SET_SEND_IMAGE, payload: "" });
 	};
