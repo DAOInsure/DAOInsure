@@ -21,11 +21,11 @@ import {
 import { useState, useEffect, useContext } from "react";
 import { TiPlus } from "react-icons/ti";
 import Card from "../Components/Card";
-import { connectToInfuraIpfs } from "../utils/ipfs";
+// import { connectToInfuraIpfs } from "../utils/ipfs";
 import { addToThread, getClient } from "../utils/textile";
 import { AppContext } from "../utils/AppContext";
 import { uploadToSlate } from "../utils/slate";
-import fleekStorage from "@fleekhq/fleek-storage-js";
+// import fleekStorage from "@fleekhq/fleek-storage-js";
 import { v4 as uuidv4 } from "uuid";
 import { Web3Context } from "../utils/Web3Context";
 

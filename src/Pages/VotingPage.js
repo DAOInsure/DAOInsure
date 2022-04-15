@@ -31,7 +31,7 @@ import { uploadToSlate } from "../utils/slate";
 import { addToThread, queryThread } from "../utils/textile";
 import { ThreadID } from "@textile/hub";
 import { useParams } from "react-router-dom";
-import fleekStorage from "@fleekhq/fleek-storage-js";
+// import fleekStorage from "@fleekhq/fleek-storage-js";
 import { Web3Context } from "../utils/Web3Context";
 
 const ACTIONS = {
@@ -131,26 +131,19 @@ function VotingPage(props) {
 		async function init() {
 			const proposalId = allProposalsArray[id][9];
 
-			const myFile = await fleekStorage.getFileFromHash({
-				hash: proposalId,
-			});
+			const myFile = await queryThread(
+				textileClient,
+				"bafkyspsyykcninhqn4ht6d6jeqmzq4cepy344akmkhjk75dmw36wq4q",
+				"claimsData",
+				{ claimId: proposalId }
+			);
+
+			// const myFile = await fleekStorage.getFileFromHash({
+			// 	hash: proposalId,
+			// });
+
 			dispatch({ type: ACTIONS.SET_CLAIM, payload: myFile });
 
-			dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
-		}
-		init();
-	}, [textileClient]);
-
-	useEffect(() => {
-		async function init() {
-			const proposalId = allProposalsArray[id][9];
-
-			const myFile = await fleekStorage.getFileFromHash({
-				hash: proposalId,
-			});
-			dispatch({ type: ACTIONS.SET_CLAIM, payload: myFile });
-
-			console.log(myFile);
 			dispatch({ type: ACTIONS.SET_LOADING_CLAIM, payload: false });
 
 			// messages from the chat feature are stored in textile. A single collection of all message but can be distinguished using claimId.
