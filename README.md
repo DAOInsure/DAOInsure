@@ -1,21 +1,22 @@
-# DAOInsure 
-<h1 align="center">DAOInsure - Decentralised autonomous Insurance organisation: Insurance for the people by the people.</h1>
+<h1 align="center">DAOInsure</h1>
 
 <p align="center">
-  <a href="https://github.com/DAOInsure/DAOInsure">
-    <img src="./public/assets/github.png" alt="Logo" width="638" height="158">
-  </a>
-  <h6>Built at ETHIndia ETHOdyssey 2021 by DevFolio</h6>
-  <img src="./public/assets/ETHIndia.svg" alt="Logo" width="120" height="120">
-  <img src="./public/assets/devfolio.png" alt="Logo">
-  </p>
-  
+<a align="center" href="https://github.com/DAOInsure/DAOInsure">
+  <img src="./public/assets/github.png" alt="Logo" width="638" height="158">
+</a>
+</p>
+<h6 align="center">Built at ETHIndia ETHOdyssey 2021 by DevFolio</h6>
+<p align="center">
+<img align="center" src="./public/assets/ETHIndia.svg" alt="Logo" width="120" height="120">
+<img src="./public/assets/devfolio.png" alt="Logo">
+</p> 
+ 
   <p align="center"><a href="">Watch Demo Video on YouTube</a></p>
 
 ## Bounties we have worked on
 <p align="center"><img src="./public/assets/4.png" alt="Logo">
 
-## _DAOInsure aims to solve the problem of transparency with respect to conventional Insurance reimbursements._
+<h3 align="center">DAOInsure aims to solve the problem of transparency with respect to conventional Insurance reimbursements.</h3>
 
 <p align="center">
     <a href="">View Demo</a>
@@ -67,7 +68,7 @@ We have used the following technologies for this project:
 
 ## Getting Started
 
-* Clone the repo:
+### Clone the repo:
 
 `git clone https://github.com/DAOInsure/DAOInsure.git && cd DAOInsure`
 
